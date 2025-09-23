@@ -2,3 +2,4 @@
 require("config.lazy")
 require("config.gruvbox")
 require("config.keymaps")
+require("config.autocmds")
