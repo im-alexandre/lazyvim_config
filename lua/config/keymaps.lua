@@ -17,3 +17,5 @@ local set = vim.keymap.set
 set("n", "<C-w>", function()
   pcall(vim.api.nvim_buf_delete, 0, { force = false })
 end, { desc = "fechar arquivo do buffer (janela) atual" })
+
+set("n", "//", "<cmd>nohl<CR>", { desc = "tirar o highlight da busca" })

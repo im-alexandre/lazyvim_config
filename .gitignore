@@ -25,4 +25,4 @@ plugin/
 # Arquivos específicos de sistema
 .DS_Store
 Thumbs.db
-./lazy-lock.json
+lazy-lock.json
