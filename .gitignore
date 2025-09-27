@@ -18,8 +18,6 @@ spell/
 *.log
 *.tmp
 
-# Plugins baixados pelo Lazy.nvim
-lazy-lock.json ! # (mantenha esse, é importante para reproduzir versões exatas)
 
 # Diretórios de build de plugins
 plugin/
@@ -27,5 +25,4 @@ plugin/
 # Arquivos específicos de sistema
 .DS_Store
 Thumbs.db
-lazy-lock.json
-lazy-lock.json 
+./lazy-lock.json
