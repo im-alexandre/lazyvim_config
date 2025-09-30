@@ -1,4 +1,4 @@
-{
+return {
   "folke/snacks.nvim",
   opts = function(_, opts)
     -- merge sem sobrescrever, estendendo
@@ -10,10 +10,13 @@
     opts.finder = vim.tbl_deep_extend("force", opts.finder or {}, {
       cmd = "fd",
       args = {
-        "--type", "f",
+        "--type",
+        "f",
         "--hidden",
-        "--exclude", ".git",
-        "--ignore-file", ".gitignore",
+        "--exclude",
+        ".git",
+        "--ignore-file",
+        ".gitignore",
       },
     })
 
