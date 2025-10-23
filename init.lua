@@ -4,3 +4,4 @@ require("config.gruvbox")
 require("config.keymaps")
 require("config.autocmds")
 require("config.terminal")
+require("nvim-treesitter.parsers").jsonc.revision = nil
