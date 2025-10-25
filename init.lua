@@ -22,3 +22,4 @@ vim.cmd([[
 ]])
 
 vim.opt.shadafile = "NONE"
+require("nvim-treesitter.parsers").jsonc.revision = nil
