@@ -1,6 +1,6 @@
 -- plugins/mason.lua
 return {
-  "williamboman/mason.nvim",
+  "mason-org/mason.nvim",
   event = "VeryLazy",
 
   -- 1) Preenche ensure_installed a partir do mason-packages.txt (sem perder o que já existe)
