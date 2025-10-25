@@ -1,0 +1,9 @@
+bash-language-server
+docker-compose-language-service
+dockerfile-language-server
+hadolint
+jdtls
+jedi-language-server
+lua-language-server
+shfmt
+stylua
