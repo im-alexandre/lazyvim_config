@@ -9,7 +9,10 @@ opts = function()
     { "gr", "<cmd>Telescope lsp_references<cr>", desc = "References", nowait = true },
     { "gI", function() require("telescope.builtin").lsp_implementations({ reuse_win = true }) end, desc = "Goto Implementation" },
     { "gy", function() require("telescope.builtin").lsp_type_definitions({ reuse_win = true }) end, desc = "Goto T[y]pe Definition" },
-  })
+    { "gy", function() require("telescope.builtin").lsp_type_definitions({ reuse_win = true }) end, desc = "Goto T[y]pe Definition" },
+    {"<leader>sg", function() require("telescope.builtin").live_grep({ cwd = vim.fn.getcwd(), prompt_title = "Live Grep (cwd)",}) end, desc = "Live grep (buscar string no projeto"}
+  }
+  )
 end
 
 local set = vim.keymap.set
