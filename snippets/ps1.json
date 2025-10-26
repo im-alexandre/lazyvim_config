@@ -1,14 +1,238 @@
 {
-"function": {
-  "prefix": "function",
-  "description": "A simple function with a parameter block to specify function arguments. More: Get-Help about_Functions",
-  "body": [
-    "function minha_fun {",
-    "\tparam (",
-    "\t\t${2:OptionalParameters}",
-    "\t)",
-    "\t${0:$TM_SELECTED_TEXT}",
-    "}"
-  ]
-}
+    "ArgumentCompleterAttribute": {
+        "prefix": "argument-completer",
+        "description": "Allows you to add tab completion values to a specific parameter by writing a script block that generates zero or more CompletionResult objects. More: Get-Help about_Functions_Argument_Completion",
+        "body": [
+            "[ArgumentCompleter({",
+            "\t[OutputType([System.Management.Automation.CompletionResult])]",
+            "\tparam(",
+            "\t\t[string] \\$CommandName,",
+            "\t\t[string] \\$ParameterName,",
+            "\t\t[string] \\$WordToComplete,",
+            "\t\t[System.Management.Automation.Language.CommandAst] \\$CommandAst,",
+            "\t\t[System.Collections.IDictionary] \\$FakeBoundParameters",
+            "\t)",
+            "\t",
+            "\t\\$CompletionResults = [System.Collections.Generic.List[System.Management.Automation.CompletionResult]]::new()",
+            "\t",
+            "\t$0",
+            "\t",
+            "\treturn \\$CompletionResults",
+            "})]"
+        ]
+    },
+    "Calculated Property": {
+        "prefix": "calculated-property",
+        "description": "Typically used with Select-Object or Sort-Object. More: Get-Help about_Calculated_Properties",
+        "body": [
+            "@{Name='${1:PropertyName}';Expression={${2:<# Desired result. You can reference this object via \\$_ and \\$PSItem #>}}}$0"
+        ]
+    },
+    "Class": {
+        "prefix": "class",
+        "description": "A blueprint used to create instances of objects at run time. More: Get-Help about_Classes",
+        "body": [
+            "class ${1:ClassName} {",
+            "\t$0",
+            "}"
+        ]
+    },
+    "Class Constructor": {
+        "prefix": ["ctor-class", "class-constructor"],
+        "description": "Set default values and validate object logic at the moment of creating the instance of the class. Constructors have the same name as the class. Constructors might have arguments, to initialize the data members of the new object. More: Get-Help about_Classes",
+        "body": [
+            "${1:ClassName}(${2:<#OptionalParameters#>}) {",
+            "\t$0",
+            "}"
+        ]
+    },
+    "Class Method": {
+        "prefix": "class-method",
+        "description": "Defines the actions that a class can perform. Methods may take parameters that provide input data. Methods can return output. Data returned by a method can be any defined data type. More: Get-Help about_Classes",
+        "body": [
+            "[${1:void}] ${2:MethodName}(\\$${3:OptionalParameters}) {",
+            "\t$0",
+            "}"
+        ]
+    },
+    "Class Property": {
+        "prefix": "class-property",
+        "description": "Properties are variables declared at class scope. A property may be of any built-in type or an instance of another class. Classes have no restriction in the number of properties they have. More: Get-Help about_Classes",
+        "body": ["[${1:propertyType}] \\$${0:PropertyName}"]
+    },
+    "Comment Block": {
+        "prefix": ["block-comment"],
+        "description": "A multi-line comment.",
+        "body": [
+            "$BLOCK_COMMENT_START",
+            " # ${0:Enter a comment or description}",
+            "$BLOCK_COMMENT_END"
+        ]
+    },
+    "do-until": {
+        "prefix": "do-until",
+        "description": "Runs a statement list repeatedly until a condition is met. More: Get-Help about_Do",
+        "body": [
+            "do {",
+            "\t$0",
+            "} until (",
+            "\t${1:<# Condition that stops the loop if it returns true #>}",
+            ")"
+        ]
+    },
+    "do-while": {
+        "prefix": "do-while",
+        "description": "Runs a statement list repeatedly as long as a condition is met. More: Get-Help about_Do",
+        "body": [
+            "do {",
+            "\t$0",
+            "} while (",
+            "\t${1:<# Condition that stops the loop if it returns false #>}",
+            ")"
+        ]
+    },
+    "else": {
+        "prefix": "else",
+        "description": "else defines what is done when all if and elseif conditions are false. More: Get-Help about_If",
+        "body": [
+            "else {",
+            "\t$0",
+            "}"
+        ]
+    },
+    "elseif": {
+        "prefix": "elseif",
+        "description": "elseif provides an alternative path when an if condition is false. More: Get-Help about_If",
+        "body": [
+            "elseif (${1:<#condition#>}) {",
+            "\t$0",
+            "}"
+        ]
+    },
+    "Enum": {
+        "prefix": "enum",
+        "description": "An enumeration is a distinct type that consists of a set of named labels called the enumerator list. More: Get-Help about_Enum",
+        "body": [
+            "enum ${1:<#EnumName#>} {",
+            "\t$0",
+            "}"
+        ]
+    },
+    "for": {
+        "prefix": "for",
+        "description": "Creates a loop that runs commands in a command block while a specified condition evaluates to $true.",
+        "body": [
+            "for (\\$${1:i} = 0; \\$${1:i} -lt \\$${2:array}.Count; \\$${1:i}++) {",
+            "\t$0",
+            "}"
+        ]
+    },
+    "foreach": {
+        "prefix": "foreach",
+        "description": "Iterate through a collection assigning a variable to the current item on each loop rather than using $PSItem. More: Get-Help about_Foreach",
+        "body": [
+            "\\$${0:collection} = @(\\$${1:$primeiro}, \\$${2:$segundo})",
+            "foreach (\\$${3:item} in \\$${4:collection}) {",
+            "\t$5",
+            "}"
+        ]
+    },
+    "function": {
+        "prefix": "function",
+        "description": "A simple function with a parameter block to specify function arguments. More: Get-Help about_Functions",
+        "body": [
+            "function ${1:FunctionName} {",
+            "\tparam (",
+            "\t\t${2:OptionalParameters}",
+            "\t)",
+            "\t$0",
+            "}"
+        ]
+    },
+    "Function Help": {
+        "prefix": ["help-function", "comment-help"],
+        "description": "Comment-based help for an advanced function. More: Get-Help about_Comment_Based_Help",
+        "body": [
+            "<#",
+            ".SYNOPSIS",
+            "\t${1:Short description}",
+            ".DESCRIPTION",
+            "\t${2:Detailed description}",
+            ".NOTES",
+            "\t${3:Notes}",
+            ".LINK",
+            "\t${4:URL}",
+            ".EXAMPLE",
+            "\t${5:Example command}",
+            "\t${6:Explanation}",
+            "#>",
+            "",
+            "$0"
+        ]
+    },
+    "Function-Advanced": {
+        "prefix": ["function-advanced", "cmdlet"],
+        "description": "Script advanced function definition snippet.",
+        "body": [
+            "function ${1:Verb-Noun} {",
+            "\t[CmdletBinding()]",
+            "\tparam (",
+            "\t\t$0",
+            "\t)",
+            "\tbegin {",
+            "\t\t",
+            "\t}",
+            "\tprocess {",
+            "\t\t",
+            "\t}",
+            "\tend {",
+            "\t\t",
+            "\t}",
+            "}"
+        ]
+    },
+    "if": {
+        "prefix": "if",
+        "description": "Run code blocks if a specified conditional test evaluates to true.",
+        "body": [
+            "if (${1:condition}) {",
+            "\t$0",
+            "}"
+        ]
+    },
+    "Parameter-LiteralPath": {
+        "prefix": "parameter-literalpath",
+        "description": "Parameter declaration snippet for a LiteralPath parameter",
+        "body": [
+            "[Parameter(Mandatory=\\$true,",
+            "           Position=${1:0},",
+            "           ParameterSetName=\"${2:LiteralPath}\",",
+            "           ValueFromPipelineByPropertyName=\\$true,",
+            "           HelpMessage=\"Literal path to one or more locations.\")]",
+            "[Alias(\"PSPath\")]",
+            "[ValidateNotNullOrEmpty()]",
+            "[string[]]",
+            "\\$${2:LiteralPath}$0"
+        ]
+    },
+    "try-catch": {
+        "prefix": "try-catch",
+        "description": "Attempt a block of code and handle exceptions.",
+        "body": [
+            "try {",
+            "\t$0",
+            "} catch {",
+            "\t${1:<# Handle exception #>}",
+            "}"
+        ]
+    },
+    "while": {
+        "prefix": "while",
+        "description": "Repeatedly perform an action while a condition is true.",
+        "body": [
+            "while (${1:condition}) {",
+            "\t$0",
+            "}"
+        ]
+    }
 }
