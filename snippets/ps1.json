@@ -131,7 +131,8 @@
         "prefix": "foreach",
         "description": "Iterate through a collection assigning a variable to the current item on each loop rather than using $PSItem. More: Get-Help about_Foreach",
         "body": [
-            "\\$${0:collection} = @(\\$${1:$primeiro}, \\$${2:$segundo})",
+            
+            "\\$${0:collection} = @(\\$${1:})",
             "foreach (\\$${3:item} in \\$${4:collection}) {",
             "\t$5",
             "}"
