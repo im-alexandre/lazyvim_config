@@ -1,0 +1,14 @@
+{
+"function": {
+  "prefix": "function",
+  "description": "A simple function with a parameter block to specify function arguments. More: Get-Help about_Functions",
+  "body": [
+    "function minha_fun {",
+    "\tparam (",
+    "\t\t${2:OptionalParameters}",
+    "\t)",
+    "\t${0:$TM_SELECTED_TEXT}",
+    "}"
+  ]
+}
+}

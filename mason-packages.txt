@@ -1,9 +1,12 @@
 bash-language-server
 docker-compose-language-service
+docker-language-server
 dockerfile-language-server
 hadolint
 jdtls
 jedi-language-server
 lua-language-server
+powershell-editor-services
+ruff
 shfmt
 stylua

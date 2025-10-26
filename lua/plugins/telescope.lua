@@ -8,7 +8,7 @@ return {
     -- adiciona comportamento ao find_files (sem sobrescrever o resto)
     opts.pickers.find_files = vim.tbl_deep_extend("force", opts.pickers.find_files or {}, {
       hidden = true, -- inclui dotfiles
-      no_ignore = true, -- inclui arquivos .gitignore
+      -- no_ignore = true, -- inclui arquivos .gitignore
     })
 
     return opts
