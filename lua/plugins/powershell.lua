@@ -1,0 +1,3 @@
+return {
+  "TheLeoP/powershell.nvim",
+}
