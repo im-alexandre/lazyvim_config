@@ -7,6 +7,7 @@ require("config.terminal")
 require("config.remove_powershell")
 require("config.python_env")
 require("config.powershell")
+require("config.jdtls")
 
 vim.api.nvim_create_autocmd("BufReadPost", {
   pattern = { "[stdin]" },
