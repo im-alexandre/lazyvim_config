@@ -1,4 +1,5 @@
 bash-language-server
+django-template-lsp
 docker-compose-language-service
 docker-language-server
 dockerfile-language-server
