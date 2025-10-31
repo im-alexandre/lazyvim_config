@@ -2,9 +2,14 @@ bash-language-server
 docker-compose-language-service
 docker-language-server
 dockerfile-language-server
+google-java-format
 hadolint
+java-debug-adapter
+java-test
 jdtls
 jedi-language-server
+jq
+json-lsp
 lua-language-server
 powershell-editor-services
 ruff
