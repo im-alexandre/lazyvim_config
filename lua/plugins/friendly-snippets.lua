@@ -11,7 +11,6 @@ return {
     -- 2️⃣ Carrega os SEUS snippets
     require("luasnip.loaders.from_vscode").lazy_load({
       paths = { vim.fn.stdpath("config") .. "/snippets" },
-      include = { "powershell", "ps1" },
     })
   end,
 }

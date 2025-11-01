@@ -16,3 +16,10 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     vim.opt.foldmethod = "diff"
   end,
 })
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "*.j2", "*.jinja2", "*.jinja" },
+  callback = function()
+    vim.bo.filetype = "htmldjango"
+  end,
+})

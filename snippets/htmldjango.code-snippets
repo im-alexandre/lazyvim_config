@@ -1,0 +1,49 @@
+{
+  "Django Block": {
+    "prefix": "block",
+    "body": [
+      "{% block ${1:name} %}",
+      "  $0",
+      "{% endblock %}"
+    ],
+    "description": "Cria um bloco Django/Jinja"
+  },
+  "If Tag": {
+    "prefix": "if",
+    "body": [
+      "{% if ${1:condition} %}",
+      "  $0",
+      "{% endif %}"
+    ],
+    "description": "Estrutura if"
+  },
+  "For Loop": {
+    "prefix": "for",
+    "body": [
+      "{% for ${1:item} in ${2:sequence} %}",
+      "  $0",
+      "{% endfor %}"
+    ],
+    "description": "Loop for"
+  },
+  "Include": {
+    "prefix": "include",
+    "body": ["{% include '${1:template}.html' %}"],
+    "description": "Inclui um template"
+  },
+  "Extends": {
+    "prefix": "extends",
+    "body": ["{% extends '${1:base}.html' %}"],
+    "description": "Herda outro template"
+  },
+  "Variable": {
+    "prefix": "var",
+    "body": ["{{ ${1:variable} }}"],
+    "description": "Exibe variável"
+  },
+  "Comment": {
+    "prefix": "comment",
+    "body": ["{# ${1:comentário} #}"],
+    "description": "Comentário Jinja/Django"
+  }
+}
