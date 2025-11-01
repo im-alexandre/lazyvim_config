@@ -1,6 +1,6 @@
 -- lua/plugins/mini-icons.lua (ou override no seu spec)
 return {
-  "mini-vim/mini.icons",
+  "nvim-mini/mini.icons",
   opts = function(_, opts)
     local M = require("mini.icons")
     -- pega ícone e highlight já usados para a extensão 'html'
