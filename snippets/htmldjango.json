@@ -17,6 +17,12 @@
     ],
     "description": "Estrutura if"
   },
+  "Set List": {
+    "prefix": "list",
+    "body": [
+      "{% set list=[$1,$2,$3] %}"
+    ]
+  },
   "For Loop": {
     "prefix": "for",
     "body": [
@@ -28,22 +34,30 @@
   },
   "Include": {
     "prefix": "include",
-    "body": ["{% include '${1:template}.html' %}"],
+    "body": [
+      "{% include '${1:template}.html' %}"
+    ],
     "description": "Inclui um template"
   },
   "Extends": {
     "prefix": "extends",
-    "body": ["{% extends '${1:base}.html' %}"],
+    "body": [
+      "{% extends '${1:base}.html' %}"
+    ],
     "description": "Herda outro template"
   },
   "Variable": {
     "prefix": "var",
-    "body": ["{{ ${1:variable} }}"],
+    "body": [
+      "{{ ${1:variable} }}"
+    ],
     "description": "Exibe variável"
   },
   "Comment": {
     "prefix": "comment",
-    "body": ["{# ${1:comentário} #}"],
+    "body": [
+      "{# ${1:comentário} #}"
+    ],
     "description": "Comentário Jinja/Django"
   }
 }

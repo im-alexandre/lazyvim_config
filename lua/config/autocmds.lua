@@ -8,6 +8,20 @@
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 -- Auto update da config do LazyVim
 -- AUTOCMD: Git pull no config; se atualizou, roda :MasonInstallFromFile
+vim.api.nvim_create_autocmd("BufReadPost", {
+  pattern = { "[stdin]" },
+  callback = function()
+    vim.bo.filetype = "diff"
+    vim.opt.foldmethod = "diff"
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "*.j2", "*.jinja2", "*.jinja" },
+  callback = function()
+    vim.bo.filetype = "htmldjango"
+  end,
+})
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
     local config_path = vim.fn.stdpath("config")
