@@ -93,11 +93,14 @@ return {
       desc = "Exporta pacotes Mason para mason-packages.txt",
     })
 
-    -- :MasonInstallFromFile (manual — instala tudo da lista)
+    -- COMANDO: :MasonInstallFromFile (apenas pacotes AUSENTES)
     vim.api.nvim_create_user_command("MasonInstallFromFile", function()
-      local lines = {}
-      local f = io.open(list_file, "r")
-      if f then
+      local function read_list(path)
+        local lines, f = {}, io.open(list_file or path, "r")
+        if not f then
+          vim.notify("Lista não encontrada: " .. (list_file or path), vim.log.levels.WARN)
+          return {}
+        end
         for line in f:lines() do
           line = vim.trim(line)
           if line ~= "" and not line:match("^#") then
@@ -105,13 +108,52 @@ return {
           end
         end
         f:close()
+        return lines
       end
-      if #lines == 0 then
-        vim.notify("Lista vazia ou arquivo não encontrado: " .. list_file, vim.log.levels.WARN)
+
+      local ok_reg, registry = pcall(require, "mason-registry")
+      if not ok_reg then
+        vim.notify("mason-registry não disponível (carregue o Mason).", vim.log.levels.WARN)
         return
       end
-      vim.cmd("MasonInstall " .. table.concat(lines, " "))
-    end, { desc = "Instala pacotes do mason-packages.txt" })
+
+      local wanted = read_list(list_file)
+      if #wanted == 0 then
+        return
+      end
+
+      registry.refresh(function()
+        local to_install, unknown = {}, {}
+        for _, name in ipairs(wanted) do
+          local ok_pkg, pkg = pcall(registry.get_package, name)
+          if not ok_pkg then
+            table.insert(unknown, name)
+          else
+            if not pkg:is_installed() then
+              table.insert(to_install, name)
+            end
+          end
+        end
+
+        if #unknown > 0 then
+          vim.notify(
+            "Não encontrados no Mason: " .. table.concat(unknown, ", "),
+            vim.log.levels.WARN,
+            { title = "Mason" }
+          )
+        end
+
+        if #to_install == 0 then
+          vim.notify("Todos os pacotes da lista já estão instalados ✅", vim.log.levels.INFO, { title = "Mason" })
+          return
+        end
+
+        vim.notify("Instalando ausentes: " .. table.concat(to_install, " "), vim.log.levels.INFO, { title = "Mason" })
+        vim.schedule(function()
+          vim.cmd("MasonInstall " .. table.concat(to_install, " "))
+        end)
+      end)
+    end, { desc = "Instala apenas pacotes ausentes do mason-packages.txt" })
 
     -- Hook: após qualquer instalação bem-sucedida, exporta automaticamente
     mr:on("package:install:success", function()
