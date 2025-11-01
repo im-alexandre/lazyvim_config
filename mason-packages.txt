@@ -1,5 +1,6 @@
 bash-language-server
 django-template-lsp
+djlint
 docker-compose-language-service
 docker-language-server
 dockerfile-language-server
