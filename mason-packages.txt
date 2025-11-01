@@ -10,10 +10,13 @@ java-debug-adapter
 java-test
 jdtls
 jedi-language-server
+jinja-lsp
 jq
 json-lsp
 lua-language-server
+marksman
 powershell-editor-services
+pyright
 ruff
 shfmt
 stylua

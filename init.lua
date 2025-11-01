@@ -1,6 +1,6 @@
 -- bootstrap lazy.nvim, LazyVim and your plugins
-require("config.autocmds")
 require("config.lazy")
+require("config.autocmds")
 require("config.gruvbox")
 require("config.keymaps")
 require("config.terminal")
