@@ -1,3 +1,5 @@
+ansible-language-server
+ansible-lint
 bash-language-server
 django-template-lsp
 djlint
@@ -20,3 +22,4 @@ pyright
 ruff
 shfmt
 stylua
+tree-sitter-cli
