@@ -1,5 +1,4 @@
 ansible-language-server
-ansible-lint
 bash-language-server
 django-template-lsp
 djlint
