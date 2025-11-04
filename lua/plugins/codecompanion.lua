@@ -1,56 +1,57 @@
 return {
-  "olimorris/codecompanion.nvim",
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-    "MunifTanjim/nui.nvim",
-    "nvim-treesitter/nvim-treesitter",
-  },
-  config = function()
-    local ai_model = "gpt-4o-mini" -- ou o modelo que você estiver usando
-
-    -- lê tua key do arquivo local
-    local keyfile = vim.fn.stdpath("config") .. "/.open_api_key"
-    local key = vim.fn.filereadable(keyfile) == 1 and vim.fn.readfile(keyfile)[1] or nil
-
-    local adapters = require("codecompanion.adapters")
-
-    require("codecompanion").setup({
-      adapters = {
-        http = {
-          openai = function()
-            return adapters.extend("openai", {
-              env = { api_key = key },
-              schema = { model = { default = ai_model } },
-            })
-          end,
-        },
-      },
-
-      strategies = {
-        chat = {
-          adapter = "openai",
-          model = ai_model,
-
-          -- 💬 Configura o idioma padrão
-          system_prompt = [[
-              Você é um assistente de desenvolvimento chamado XandãoBot. 
-              Fale em português do Brasil, com linguagem técnica, mas descontraída.
-              Use termos como "função", "bloco de código", "refatorar", "endpoint" etc.
-              Sempre mantenha o tom profissional e direto.
-              ]],
-        },
-        inline = {
-          adapter = "openai",
-          model = ai_model,
-          system_prompt = "Responda em português do Brasil, de forma breve e técnica.",
-        },
-      },
-
-      opts = { log_level = "WARN" },
-    })
-
-    -- Atalhos
-    vim.keymap.set("n", "<leader>ac", "<cmd>CodeCompanionChat Toggle<CR>", { desc = "Abrir chat do CodeCompanion" })
-    vim.keymap.set("v", "<leader>ae", "<cmd>CodeCompanionChat Add<CR>", { desc = "Mandar seleção pro chat" })
-  end,
+  --   "olimorris/codecompanion.nvim",
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --     "MunifTanjim/nui.nvim",
+  --     "nvim-treesitter/nvim-treesitter",
+  --     "j-hui/fidget.nvim",
+  --   },
+  --   config = function()
+  --     local ai_model = "gpt-4o-mini" -- ou o modelo que você estiver usando
+  --
+  --     -- lê tua key do arquivo local
+  --     local keyfile = vim.fn.stdpath("config") .. "/.open_api_key"
+  --     local key = vim.fn.filereadable(keyfile) == 1 and vim.fn.readfile(keyfile)[1] or nil
+  --
+  --     local adapters = require("codecompanion.adapters")
+  --
+  --     require("codecompanion").setup({
+  --       adapters = {
+  --         http = {
+  --           openai = function()
+  --             return adapters.extend("openai", {
+  --               env = { api_key = key },
+  --               schema = { model = { default = ai_model } },
+  --             })
+  --           end,
+  --         },
+  --       },
+  --
+  --       strategies = {
+  --         chat = {
+  --           adapter = "openai",
+  --           model = ai_model,
+  --
+  --           -- 💬 Configura o idioma padrão
+  --           system_prompt = [[
+  --               Você é um assistente de desenvolvimento chamado XandãoBot.
+  --               Fale em português do Brasil, com linguagem técnica, mas descontraída.
+  --               Use termos como "função", "bloco de código", "refatorar", "endpoint" etc.
+  --               Sempre mantenha o tom profissional e direto.
+  --               ]],
+  --         },
+  --         inline = {
+  --           adapter = "openai",
+  --           model = ai_model,
+  --           system_prompt = "Responda em português do Brasil, de forma breve e técnica.",
+  --         },
+  --       },
+  --
+  --       opts = { log_level = "WARN" },
+  --     })
+  --
+  --     -- Atalhos
+  --     vim.keymap.set("n", "<leader>ac", "<cmd>CodeCompanionChat Toggle<CR>", { desc = "Abrir chat do CodeCompanion" })
+  --     vim.keymap.set("v", "<leader>ae", "<cmd>CodeCompanionChat Add<CR>", { desc = "Mandar seleção pro chat" })
+  --   end,
 }
