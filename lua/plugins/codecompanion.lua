@@ -1,4 +1,3 @@
--- ~/.config/nvim/lua/plugins/codecompanion.lua
 return {
   "olimorris/codecompanion.nvim",
   dependencies = {
@@ -7,42 +6,51 @@ return {
     "nvim-treesitter/nvim-treesitter",
   },
   config = function()
-    -- Modelo centralizado
-    local ai_model = "gpt-4o-mini"
+    local ai_model = "gpt-4o-mini" -- ou o modelo que você estiver usando
 
-    -- Lê a chave crua
+    -- lê tua key do arquivo local
     local keyfile = vim.fn.stdpath("config") .. "/.open_api_key"
     local key = vim.fn.filereadable(keyfile) == 1 and vim.fn.readfile(keyfile)[1] or nil
-    if not key or key == "" then
-      vim.notify("❌ OPENAI API key não encontrada em " .. keyfile, vim.log.levels.ERROR)
-      return
-    end
 
     local adapters = require("codecompanion.adapters")
 
     require("codecompanion").setup({
       adapters = {
         http = {
-          -- ⚠️ IMPORTANTE: usar função que retorna adapters.extend(...)
           openai = function()
             return adapters.extend("openai", {
               env = { api_key = key },
               schema = { model = { default = ai_model } },
-              -- (Opcional) forçar roles explicitamente, se quiser:
-              -- roles = { user = "user", assistant = "assistant", system = "system" },
             })
           end,
         },
       },
+
       strategies = {
-        chat = { adapter = "openai", model = ai_model },
-        inline = { adapter = "openai", model = ai_model },
+        chat = {
+          adapter = "openai",
+          model = ai_model,
+
+          -- 💬 Configura o idioma padrão
+          system_prompt = [[
+              Você é um assistente de desenvolvimento chamado XandãoBot. 
+              Fale em português do Brasil, com linguagem técnica, mas descontraída.
+              Use termos como "função", "bloco de código", "refatorar", "endpoint" etc.
+              Sempre mantenha o tom profissional e direto.
+              ]],
+        },
+        inline = {
+          adapter = "openai",
+          model = ai_model,
+          system_prompt = "Responda em português do Brasil, de forma breve e técnica.",
+        },
       },
+
       opts = { log_level = "WARN" },
     })
 
     -- Atalhos
-    vim.keymap.set("n", "<leader>ac", "<cmd>CodeCompanionChat Toggle<CR>", { desc = "Chat CodeCompanion" })
+    vim.keymap.set("n", "<leader>ac", "<cmd>CodeCompanionChat Toggle<CR>", { desc = "Abrir chat do CodeCompanion" })
     vim.keymap.set("v", "<leader>ae", "<cmd>CodeCompanionChat Add<CR>", { desc = "Mandar seleção pro chat" })
   end,
 }

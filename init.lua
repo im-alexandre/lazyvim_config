@@ -8,3 +8,7 @@ require("config.remove_powershell")
 require("config.python_env")
 require("config.powershell")
 require("config.jdtls")
+
+vim.opt.fileencoding = "utf-8"
+vim.opt.fileformat = "unix"
+vim.opt.fileformats = { "unix" }
