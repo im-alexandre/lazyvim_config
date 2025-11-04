@@ -1,25 +1,30 @@
-return {
-  "folke/snacks.nvim",
-  opts = function(_, opts)
-    -- merge sem sobrescrever, estendendo
-    opts.animate = vim.tbl_deep_extend("force", opts.animate or {}, { enabled = false })
-    opts.scroll = vim.tbl_deep_extend("force", opts.scroll or {}, { enabled = false })
-    opts.indent = vim.tbl_deep_extend("force", opts.indent or {}, { animate = { enabled = false } })
-    opts.statuscolumn = vim.tbl_deep_extend("force", opts.statuscolumn or {}, { enabled = false })
-
-    opts.finder = vim.tbl_deep_extend("force", opts.finder or {}, {
-      cmd = "fd",
-      args = {
-        "--type",
-        "f",
-        "--hidden",
-        "--exclude",
-        ".git",
-        "--ignore-file",
-        ".gitignore",
-      },
-    })
-
-    return opts
-  end,
+opts = {
+  dashboard = {
+    preset = {
+      pick = function(cmd, opts)
+        return LazyVim.pick(cmd, opts)()
+      end,
+      header = [[
+       ██╗      █████╗ ███████╗██╗   ██╗██╗   ██╗██╗███╗   ███╗          Z
+       ██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██║   ██║██║████╗ ████║      Z    
+       ██║     ███████║  ███╔╝  ╚████╔╝ ██║   ██║██║██╔████╔██║   z       
+       ██║     ██╔══██║ ███╔╝    ╚██╔╝  ╚██╗ ██╔╝██║██║╚██╔╝██║ z         
+       ███████╗██║  ██║███████╗   ██║    ╚████╔╝ ██║██║ ╚═╝ ██║           
+       ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝     ╚═══╝  ╚═╝╚═╝     ╚═╝           
+]],
+       -- stylua: ignore
+       ---@type snacks.dashboard.Item[]
+       keys = {
+         { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
+         { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+         { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
+         { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+         { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
+         { icon = " ", key = "s", desc = "Restore Session", section = "session" },
+         { icon = " ", key = "x", desc = "Lazy Extras", action = ":LazyExtras" },
+         { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
+         { icon = " ", key = "q", desc = "Quit Dashboard", action = function() require("snacks").explorer() end },
+       },
+    },
+  },
 }
