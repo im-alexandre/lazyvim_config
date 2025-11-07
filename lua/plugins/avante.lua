@@ -15,11 +15,12 @@ return {
     providers = {
       openai = {
         endpoint = "https://api.openai.com/v1",
-        model = "gpt-5", -- troque para o modelo de sua preferência
-        timeout = 30000, -- em ms
+        model = "gpt-4o-mini", -- troque para o modelo de sua preferência
+        timeout = 20000, -- em ms
+        stream = false,
         extra_request_body = {
           temperature = 0,
-          -- max_completion_tokens = 8192,
+          max_completion_tokens = 8192,
         },
         -- A chave é lida de: ENV["OPENAI_API_KEY"]
       },
