@@ -22,7 +22,3 @@ set("n", "<C-w>", function()
 end, { desc = "fechar arquivo do buffer (janela) atual" })
 
 set("n", "//", "<cmd>nohl<CR>", { desc = "tirar o highlight da busca" })
-
--- Atalhos
-vim.keymap.set("n", "<leader>ac", "<cmd>CodeCompanionChat Toggle<CR>", { desc = "Abrir chat do CodeCompanion" })
-vim.keymap.set("v", "<leader>ae", "<cmd>CodeCompanionChat Add<CR>", { desc = "Mandar seleção pro chat" })

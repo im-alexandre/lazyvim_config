@@ -1,75 +1,85 @@
+PROVIDER = "openai"
+
+PROVIDERS = {
+  "gemini",
+  "openai",
+}
+
 local ok, err = pcall(function()
-  local key_path = vim.fn.stdpath("config") .. "/.open_api_key"
-  local key = vim.fn.readfile(key_path)[1]
-  vim.env["AVANTE_OPENAI_API_KEY"] = key
+  for index, provider in ipairs(PROVIDERS) do
+    local key_path = vim.fn.stdpath("config") .. "\\." .. provider .. "_api_key"
+    local key = vim.fn.readfile(key_path)[1]
+    vim.env["AVANTE_" .. string.upper(provider) .. "_API_KEY"] = key
+  end
 end)
 
 if not ok then
-  vim.notify("❌ não encontrei a chave da OPEN_API", vim.log.levels.WARN)
+  vim.notify("❌ não encontrei a chave AVANTE_" .. string.upper(PROVIDER) .. "_API_KEY", vim.log.levels.WARN)
 end
 
 return {
   "yetone/avante.nvim",
-  -- Compilação/instalação (Windows usa PowerShell; Linux/macOS usa make)
+  event = "VeryLazy",
   build = vim.fn.has("win32") ~= 0 and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
     or "make",
-  event = "VeryLazy",
-  version = false, -- manter sempre atualizado
-  opts = {
-    -- Instruções por projeto: o Avante vai ler este arquivo no root do repo atual
-    instructions_file = "avante.md",
+  config = function()
+    -- modelos que você quer poder alternar
+    local models = {
+      ["gpt-4o-mini"] = "gpt-4o-mini",
+      ["gpt-4o"] = "gpt-4o",
+      ["gpt-4.1"] = "gpt-4.1",
+      ["gpt-5"] = "gpt-5", -- só vai funcionar se sua API realmente listar esse modelo
+    }
 
-    -- Provider e modelo (ajuste conforme seu plano)
-    provider = "openai",
-    providers = {
-      openai = {
-        endpoint = "https://api.openai.com/v1",
-        model = "gpt-4o-mini", -- troque para o modelo de sua preferência
-        timeout = 20000, -- em ms
-        stream = false,
-        extra_request_body = {
-          temperature = 0,
-          max_completion_tokens = 8192,
+    -- função que (re)configura o Avante com o modelo escolhido
+    local function setup_avante(model)
+      model = models[model] or models["gpt-4o-mini"]
+
+      require("avante").setup({
+        mode = "legacy",
+        hints = { enabled = false },
+        suggestion = { enabled = false },
+        provider = PROVIDER,
+        providers = {
+          openai = {
+            endpoint = "https://api.openai.com/v1",
+            api_key_name = "OPENAI_API_KEY",
+            model = model,
+            timeout = 60000,
+            retry = 2,
+            retry_delay = 30000,
+            extra_request_body = {
+              temperature = 0.2,
+              max_completion_tokens = 1024,
+            },
+          },
         },
-        -- A chave é lida de: ENV["OPENAI_API_KEY"]
-      },
-    },
+      })
 
-    -- Se quiser um comportamento menos "agente", descomente:
-    -- mode = "legacy",
-  },
-
-  config = function(_, opts)
-    -- Shell mais leve no Windows (usa cmd.exe em vez de pwsh)
-    if vim.loop.os_uname().sysname == "Windows_NT" then
-      vim.opt.shell = "cmd.exe"
-      vim.opt.shellcmdflag = "/s /c"
-      vim.opt.shellquote = ""
-      vim.opt.shellxquote = ""
+      vim.g.avante_current_model = model
+      vim.notify("Avante usando modelo: " .. model, vim.log.levels.INFO)
     end
 
-    local avante = require("avante")
-    avante.setup(opts)
+    -- inicializa com o último modelo usado (se existir) ou gpt-4o
+    setup_avante(vim.g.avante_current_model)
 
-    -- Mapeamentos úteis
-    -- Novo chat no MESMO projeto (mantém histórico anterior acessível em :AvanteHistory)
-    vim.keymap.set("n", "<leader>aN", "<cmd>AvanteChatNew<cr>", { desc = "Avante: Novo chat" })
-    -- Abrir histórico de chats (por projeto)
-    vim.keymap.set("n", "<leader>aH", "<cmd>AvanteHistory<cr>", { desc = "Avante: Histórico" })
-    -- Limpar apenas a conversa atual (não apaga históricos antigos)
-    vim.keymap.set("n", "<leader>aC", "<cmd>AvanteClear session<cr>", { desc = "Avante: Limpar sessão atual" })
-    -- Limpar caches/históricos de TODOS os projetos (use com cuidado)
-    vim.keymap.set("n", "<leader>aX", "<cmd>AvanteClear cache<cr>", { desc = "Avante: Limpar cache global" })
+    -- comando para trocar de modelo em runtime
+    vim.api.nvim_create_user_command("AvanteSwitch", function(opts)
+      local wanted = vim.trim(opts.args)
+      if not models[wanted] then
+        vim.notify(
+          "Modelo inválido: " .. wanted .. "\nDisponíveis: " .. table.concat(vim.tbl_keys(models), ", "),
+          vim.log.levels.ERROR
+        )
+        return
+      end
 
-    -- 🔒 Por-projeto: não resetar automaticamente ao abrir o Neovim.
-    -- O Avante detecta o arquivo 'avante.md' no CWD e mantém um histórico por diretório.
-    -- Se quiser sempre iniciar focado no chat atual do projeto, você pode focar a janela do Avante:
-    -- vim.api.nvim_create_autocmd("VimEnter", {
-    --   callback = function()
-    --     if vim.fn.exists(":AvanteFocus") == 2 then
-    --       vim.cmd("silent! AvanteFocus")
-    --     end
-    --   end,
-    -- })
+      setup_avante(wanted)
+    end, {
+      nargs = 1,
+      complete = function()
+        return vim.tbl_keys(models)
+      end,
+    })
   end,
 }
