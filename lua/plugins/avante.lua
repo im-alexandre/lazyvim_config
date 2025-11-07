@@ -1,4 +1,13 @@
-vim.env["AVANTE_OPENAI_API_KEY"] = vim.fn.readfile(vim.fn.stdpath("config") .. "/.open_api_key")[1]
+local ok, err = pcall(function()
+  local key_path = vim.fn.stdpath("config") .. "/.open_api_key"
+  local key = vim.fn.readfile(key_path)[1]
+  vim.env["AVANTE_OPENAI_API_KEY"] = key
+end)
+
+if not ok then
+  vim.notify("❌ não encontrei a chave da OPEN_API", vim.log.levels.WARN)
+end
+
 return {
   "yetone/avante.nvim",
   -- Compilação/instalação (Windows usa PowerShell; Linux/macOS usa make)
