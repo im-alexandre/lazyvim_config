@@ -17,7 +17,7 @@ end
 
 local set = vim.keymap.set
 
-set("n", "<C-w>", function()
+set({ "i", "n", "v" }, "<C-F4>", function()
   pcall(vim.api.nvim_buf_delete, 0, { force = false })
 end, { desc = "fechar arquivo do buffer (janela) atual" })
 

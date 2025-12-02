@@ -1,6 +1,8 @@
+CMD = [[wsl /mnt/c/Users/imale/AppData/Roaming/npm/codex]]
 return {
   "akinsho/toggleterm.nvim",
   version = "*",
+
   config = function()
     require("toggleterm").setup({
       direction = "float",
@@ -8,9 +10,8 @@ return {
     })
 
     local Terminal = require("toggleterm.terminal").Terminal
-
     local codex = Terminal:new({
-      cmd = [[wsl /mnt/c/Users/imale/AppData/Roaming/npm/codex]],
+      cmd = CMD,
       hidden = false,
       direction = "float",
       on_open = function(term)
@@ -20,7 +21,7 @@ return {
 
     vim.api.nvim_create_user_command("Codex", function()
       codex:toggle()
-    end, {})
+    end, { desc = "Open Codex in toggle terminal" })
 
     vim.keymap.set("n", "<leader>cx", function()
       codex:toggle()

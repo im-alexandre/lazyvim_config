@@ -1,6 +1,27 @@
 return {
   "snacks.nvim",
+  ---@type snacks.Config
   opts = {
+    -- 1. CONFIGURAÇÃO DO PICKER (EXPANSÃO)
+    -- Ao declarar a estrutura assim, o Lazy faz o merge com os defaults.
+    picker = {
+      win = {
+        input = {
+          keys = {
+            -- Adiciona APENAS este mapping, mantendo os originais (<CR>, <Esc>, etc)
+            ["<c-s>"] = { "edit_vsplit", mode = { "i", "n" } },
+          },
+        },
+        -- Se quiser garantir também na lista de resultados (navegação normal)
+        list = {
+          keys = {
+            ["<c-s>"] = { "edit_vsplit", mode = { "i", "n" } },
+          },
+        },
+      },
+    },
+
+    -- 2. SEU DASHBOARD (MANTIDO INTACTO)
     dashboard = {
       preset = {
         pick = function(cmd, opts)

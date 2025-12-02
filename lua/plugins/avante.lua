@@ -28,7 +28,8 @@ return {
       ["gpt-4o-mini"] = "gpt-4o-mini",
       ["gpt-4o"] = "gpt-4o",
       ["gpt-4.1"] = "gpt-4.1",
-      ["gpt-5"] = "gpt-5", -- só vai funcionar se sua API realmente listar esse modelo
+      ["gpt-5"] = "gpt-5",
+      ["gpt-5-codex-max"] = "gpt-5-codex-max", -- Modelo mais potente para código
     }
 
     -- função que (re)configura o Avante com o modelo escolhido

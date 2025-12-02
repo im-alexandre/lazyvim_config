@@ -8,6 +8,7 @@ require("config.python_env")
 require("config.powershell")
 require("config.jdtls")
 require("config.terminal")
+require("user_commands")
 
 vim.opt.fileencoding = "utf-8"
 vim.opt.fileformat = "unix"
