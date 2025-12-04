@@ -11,6 +11,9 @@ require("config.terminal")
 require("user_commands")
 require("custom_plugin.astig_relief")
 
+-- Espaçamento visual
+vim.opt.linespace = 8
+
 vim.opt.fileencoding = "utf-8"
 vim.opt.fileformat = "unix"
 vim.opt.fileformats = { "unix" }

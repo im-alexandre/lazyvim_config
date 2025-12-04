@@ -6,9 +6,7 @@ local DEFAULT_MODEL = "gpt-4o-mini"
 local PROVIDERS = { "gemini", "openai" }
 local ok, err = pcall(function()
   for _, provider in ipairs(PROVIDERS) do
-    -- Ajuste para caminho correto no Windows (\) ou Linux (/)
     local key_path = vim.fn.stdpath("config") .. "/." .. provider .. "_api_key"
-    print(key_path)
 
     if vim.fn.filereadable(key_path) == 1 then
       local key = vim.fn.readfile(key_path)[1]
