@@ -21,4 +21,6 @@ set({ "i", "n", "v" }, "<C-F4>", function()
   pcall(vim.api.nvim_buf_delete, 0, { force = false })
 end, { desc = "fechar arquivo do buffer (janela) atual" })
 
+set("n", "<leader>ac", "<cmd>AvanteChange<cr>", { desc = "Seleciona o provider e o modelo de ia" })
+
 set("n", "//", "<cmd>nohl<CR>", { desc = "tirar o highlight da busca" })
