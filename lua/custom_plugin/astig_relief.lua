@@ -65,4 +65,11 @@ function M.off()
     vim.notify("🌑 Astig Relief Mode DESATIVADO", vim.log.levels.WARN)
 end
 
+-- =====================================
+-- REGISTRA COMANDOS NEOVIM DIRETO
+-- =====================================
+
+vim.api.nvim_create_user_command("AstigOn", M.on, {})
+vim.api.nvim_create_user_command("AstigOff", M.off, {})
+
 return M
