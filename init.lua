@@ -9,7 +9,7 @@ require("config.powershell")
 require("config.jdtls")
 require("config.terminal")
 require("user_commands")
-require("custom_plugins.astig_relief")
+require("custom_plugin.astig_relief")
 
 vim.opt.fileencoding = "utf-8"
 vim.opt.fileformat = "unix"
