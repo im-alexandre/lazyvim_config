@@ -1,3 +1,5 @@
+--
+--
 -- Defina o provider padrão
 local DEFAULT_PROVIDER = "openai"
 local DEFAULT_MODEL = "gpt-4o-mini"
@@ -19,12 +21,19 @@ if not ok then
   vim.notify("Erro nas chaves de API: " .. tostring(err), vim.log.levels.ERROR)
 end
 
+-- =====================================================================
+-- Patch automático persistente no plugin Avante
+-- Remove o log: "Using previously selected model: %s/%s"
+-- =====================================================================
+
 return {
   "yetone/avante.nvim",
   event = "VeryLazy",
   build = vim.fn.has("win32") ~= 0 and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
     or "make",
   config = function()
+    -- Aplica o patch no código do plugin (persistente, reexecuta após updates)
+
     -- Mapa de Modelos
     local available_models = {
       ["openai:gpt-4o-mini"] = { provider = "openai", model = "gpt-4o-mini" },
@@ -41,7 +50,8 @@ return {
       local config = available_models[selection_key]
       if not config then
         config = { provider = DEFAULT_PROVIDER, model = DEFAULT_MODEL }
-        selection_key = config.provider .. ":" .. config.model
+        selection_key = (config.provider == "gemini" and "gemini:" or config.provider .. ":") .. config.model
+        vim.g.avante_current_selection = selection_key
       end
 
       require("avante").setup({
@@ -78,10 +88,22 @@ return {
       })
 
       vim.g.avante_current_selection = selection_key
-      vim.notify("🚀 Avante: [" .. config.provider .. "] " .. config.model, vim.log.levels.INFO)
+
+      vim.notify("🚀 Modelo de IA selecionado: [" .. config.provider .. "] " .. config.model, vim.log.levels.INFO)
     end
 
-    -- Inicialização
+    -- Comando para reaplicar a configuração atual
+    vim.api.nvim_create_user_command("AvanteApply", function()
+      local current_selection = vim.g.avante_current_selection
+      if current_selection then
+        setup_avante(current_selection)
+        vim.notify("Modificações aplicadas com sucesso!", vim.log.levels.INFO)
+      else
+        vim.notify("Nenhuma seleção atual para aplicar.", vim.log.levels.WARN)
+      end
+    end, { nargs = 0 })
+
+    -- Inicialização padrão
     local initial = vim.g.avante_current_selection or (DEFAULT_PROVIDER .. ":" .. DEFAULT_MODEL)
     setup_avante(initial)
 
@@ -113,7 +135,6 @@ return {
             table.insert(provider_models, { name = cfg.model, key = key })
           end
         end
-        -- Ordena alfabeticamente
         table.sort(provider_models, function(a, b)
           return a.name < b.name
         end)

@@ -11,16 +11,4 @@ require("config.terminal")
 require("user_commands")
 require("custom_plugin.astig_relief")
 
--- Espaçamento visual
-vim.opt.linespace = 8
-
-vim.opt.fileencoding = "utf-8"
-vim.opt.fileformat = "unix"
-vim.opt.fileformats = { "unix" }
--- views can only be fully collapsed with the global statusline
-vim.opt.laststatus = 3
--- Ativa o spellcheck globalmente (opcional, se quiser sempre ligado)
-vim.opt.spell = true
-
--- Define as linguagens: Inglês E Português
-vim.opt.spelllang = { "en", "pt" }
+vim.cmd("AstigOn")
