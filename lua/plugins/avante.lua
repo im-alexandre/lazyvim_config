@@ -5,7 +5,7 @@ local DEFAULT_PROVIDER = "openai"
 local DEFAULT_MODEL = "gpt-4o-mini"
 
 -- Carrega chaves de API
-local PROVIDERS = { "gemini", "openai" }
+local PROVIDERS = { "gemini", "openai", "abacus" }
 local ok, err = pcall(function()
   for _, provider in ipairs(PROVIDERS) do
     local key_path = vim.fn.stdpath("config") .. "/." .. provider .. "_api_key"
@@ -44,6 +44,17 @@ return {
       ["gemini:gemini-3-pro-preview"] = { provider = "gemini", model = "gemini-3-pro-preview" },
       ["gemini:gemini-2.5-pro"] = { provider = "gemini", model = "gemini-2.5-pro" },
       ["gemini:gemini-2.5-flash"] = { provider = "gemini", model = "gemini-2.5-flash" },
+      -- Abacus/RouteLLM - Modelos mais potentes para coding
+      ["abacus:gpt-5.1-codex"] = { provider = "abacus", model = "gpt-5.1-codex" },
+      ["abacus:gpt-5-codex-max"] = { provider = "abacus", model = "gpt-5-codex-max" },
+      ["abacus:gpt-4o"] = { provider = "abacus", model = "gpt-4o" },
+      ["abacus:gpt-4.1"] = { provider = "abacus", model = "gpt-4.1" },
+      ["abacus:gpt-4o-mini"] = { provider = "abacus", model = "gpt-4o-mini" },
+      ["abacus:claude-3.7-sonnet"] = { provider = "abacus", model = "claude-3.7-sonnet" },
+      ["abacus:claude-opus-4"] = { provider = "abacus", model = "claude-opus-4" },
+      ["abacus:deepseek-chat"] = { provider = "abacus", model = "deepseek/deepseek-chat" },
+      ["abacus:deepseek-coder"] = { provider = "abacus", model = "deepseek/deepseek-coder" },
+      ["abacus:deepseek-reasoner"] = { provider = "abacus", model = "deepseek/deepseek-reasoner" },
     }
 
     local function setup_avante(selection_key)
@@ -83,6 +94,23 @@ return {
                 maxOutputTokens = 8192,
               },
             },
+          },
+          abacus = {
+            type = "openai", -- API compatível com OpenAI
+            endpoint = "https://routellm.abacus.ai/v1", -- BASE, sem /chat/completions
+            model = config.model,
+            timeout = 60000,
+            max_tokens = 2048, -- menor p/ economizar créditos
+            extra_request_body = {
+              temperature = 0, -- determinístico, menos tokens
+              top_p = 0.9,
+              frequency_penalty = 0.2,
+              presence_penalty = 0.1,
+            },
+            -- Se na sua página RouteLLM falar em X-API-KEY em vez de Authorization:
+            -- headers = {
+            --   ["X-API-KEY"] = vim.env.ABACUS_API_KEY,
+            -- },
           },
         },
       })
