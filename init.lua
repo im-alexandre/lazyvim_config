@@ -10,6 +10,5 @@ require("config.jdtls")
 require("config.terminal")
 require("user_commands")
 require("custom_plugin.astig_relief")
-require("custom_plugin.hello_world")
 
 -- vim.cmd("AstigOn")
