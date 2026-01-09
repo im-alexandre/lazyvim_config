@@ -5,6 +5,7 @@ djlint
 docker-compose-language-service
 docker-language-server
 dockerfile-language-server
+eslint-lsp
 google-java-format
 hadolint
 java-debug-adapter
@@ -22,3 +23,4 @@ ruff
 shfmt
 stylua
 tree-sitter-cli
+typescript-language-server

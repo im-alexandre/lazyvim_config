@@ -58,7 +58,7 @@ return {
         -- usa o endpoint padrão do Avante para OpenAI (não precisa setar)
         -- endpoint = "https://api.openai.com/v1/chat/completions",
 
-        model = "gpt-5.1",
+        model = "gpt-5.2",
         api_key_name = "OPENAI_API_KEY", -- pega do ambiente
 
         timeout = 30000, -- ms
