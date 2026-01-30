@@ -32,3 +32,4 @@ lazy-lock.json
 .openai_api_key
 .abacus_api_key
 .anthropic_api_key
+.codex

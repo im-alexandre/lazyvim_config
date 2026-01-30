@@ -9,13 +9,13 @@ return {
         input = {
           keys = {
             -- Adiciona APENAS este mapping, mantendo os originais (<CR>, <Esc>, etc)
-            ["<c-s>"] = { "edit_vsplit", mode = { "i", "n" } },
+            -- ["<c-s>"] = { "edit_vsplit", mode = { "i", "n" } },
           },
         },
         -- Se quiser garantir também na lista de resultados (navegação normal)
         list = {
           keys = {
-            ["<c-s>"] = { "edit_vsplit", mode = { "i", "n" } },
+            -- ["<c-s>"] = { "edit_vsplit", mode = { "i", "n" } },
           },
         },
       },

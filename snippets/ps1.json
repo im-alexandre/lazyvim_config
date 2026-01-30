@@ -216,6 +216,18 @@
             "\\$${2:LiteralPath}$0"
         ]
     },
+    "param-block": {
+        "prefix": "param-block",
+        "description": "Declares script parameters with optional attributes.",
+        "body": [
+            "param (",
+            "\t[Parameter(Mandatory=\\$false)]",
+            "\t${1:[string] \\$Example}",
+            ")",
+            "",
+            "$0"
+        ]
+    },
     "try-catch": {
         "prefix": "try-catch",
         "description": "Attempt a block of code and handle exceptions.",
@@ -227,6 +239,17 @@
             "}"
         ]
     },
+    "try-finally": {
+        "prefix": "try-finally",
+        "description": "Ensures cleanup logic always runs after the protected block.",
+        "body": [
+            "try {",
+            "\t$0",
+            "} finally {",
+            "\t${1:<# Cleanup #>}",
+            "}"
+        ]
+    },
     "while": {
         "prefix": "while",
         "description": "Repeatedly perform an action while a condition is true.",
@@ -234,6 +257,33 @@
             "while (${1:condition}) {",
             "\t$0",
             "}"
+        ]
+    },
+    "switch": {
+        "prefix": "switch",
+        "description": "Evaluates a value against multiple conditions.",
+        "body": [
+            "switch (\\$${1:Value}) {",
+            "\t${2:<# Condition #>} {",
+            "\t\t$0",
+            "\t}",
+            "}"
+        ]
+    },
+    "PSCustomObject": {
+        "prefix": "pscustomobject",
+        "description": "Creates a structured record in one go.",
+        "body": [
+            "[PSCustomObject]@{",
+            "\t${1:Key} = ${2:Value}",
+            "}$0"
+        ]
+    },
+    "write-host": {
+        "prefix": "write-host",
+        "description": "Writes colorized output to the console.",
+        "body": [
+            "Write-Host ${1:'Mensagem'} -ForegroundColor ${2:Yellow} -BackgroundColor ${3:DarkBlue} -NoNewLine:${4:$false}$0"
         ]
     }
 }

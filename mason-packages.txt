@@ -1,4 +1,5 @@
 ansible-language-server
+ast-grep
 autoflake
 autopep8
 bash-language-server
@@ -20,6 +21,8 @@ json-lsp
 lua-language-server
 marksman
 powershell-editor-services
+prettier
+prettierd
 pyproject-fmt
 pyright
 ruff

@@ -10,7 +10,7 @@ end
 for file in scandir(debug.getinfo(1).source:match("@?(.*/)")) do
   if file:match("%.lua$") and file ~= "init.lua" then
     local moduleName = file:match("(.+)%.lua$")
-    M[moduleName] = require("user_commands." .. moduleName)
+    M[moduleName] = require("config." .. moduleName)
   end
 end
 

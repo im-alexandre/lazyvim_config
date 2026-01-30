@@ -2,8 +2,13 @@ local function get_jdtls()
   local jdtls_path = vim.fn.expand(vim.fn.stdpath("data") .. "/mason/packages/jdtls")
   -- Obtain the path to the jar which runs the language server
   local launcher = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar")
-  -- Declare white operating system we are using, windows use win, macos use mac
+  -- Declare which operating system we are using, windows use win, macos use mac
   local SYSTEM = "linux"
+  if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 then
+    SYSTEM = "win"
+  elseif vim.fn.has("mac") == 1 or vim.fn.has("macunix") == 1 then
+    SYSTEM = "mac"
+  end
   -- Obtain the path to configuration files for your specific operating system
   local config = jdtls_path .. "/config_" .. SYSTEM
   -- Obtain the path to the Lomboc jar
