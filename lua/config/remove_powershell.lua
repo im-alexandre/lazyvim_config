@@ -1,4 +1,8 @@
 -- init.lua
+if true then
+  return
+end
+
 local fn, uv = vim.fn, vim.loop
 
 -- Caminhos

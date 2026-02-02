@@ -11,22 +11,27 @@ return {
   },
 
   opts = {
-    -- Sem modo agentic (sem ferramentas).
+    -- Força modo não-agentic
     mode = "legacy",
     provider = "openai",
 
     providers = {
       openai = {
-        model = "gpt-4o",
+        model = "gpt-5.2",
         api_key_name = "OPENAI_API_KEY",
+
+        -- Mata qualquer comportamento agentic
         disable_tools = true,
+
+        -- Deixa escolher manualmente se quiser trocar
         model_names = {
-          "gpt-4o",
+          "gpt-5.2",
           "gpt-4o-mini",
         },
       },
     },
 
+    -- Comportamento: você vê o diff, nada aplica sozinho
     behaviour = {
       auto_suggestions = false,
       auto_apply_diff_after_generation = false,
@@ -37,6 +42,23 @@ return {
       minimize_diff = true,
       enable_token_counting = true,
     },
+
+    -- Carrega memória persistente do projeto
+    context = {
+      files = {
+        ".avante/session.md",
+      },
+    },
+
+    -- Prompt global pra economizar token e evitar spam
+    system_prompt = [[
+Regras obrigatórias:
+- NÃO reimprimir arquivos completos.
+- Mostrar apenas diff ou trechos alterados.
+- Não aplicar mudanças automaticamente.
+- Pedir contexto extra apenas se indispensável.
+- Ser direto, técnico e orientado à execução.
+    ]],
 
     mappings = {
       sidebar = {

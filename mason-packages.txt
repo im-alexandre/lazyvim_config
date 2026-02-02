@@ -25,6 +25,7 @@ prettier
 prettierd
 pyproject-fmt
 pyright
+python-lsp-server
 ruff
 shfmt
 stylua

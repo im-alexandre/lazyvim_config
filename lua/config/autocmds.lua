@@ -22,48 +22,66 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     vim.bo.filetype = "htmldjango"
   end,
 })
-vim.api.nvim_create_autocmd("VimEnter", {
-  callback = function()
-    local config_path = vim.fn.stdpath("config")
-    local out, err = {}, {}
-    local cmd = { "git", "-C", config_path, "pull", "--ff-only" }
-    vim.fn.jobstart(cmd, {
-      stdout_buffered = true,
-      stderr_buffered = true,
-      on_stdout = function(_, data)
-        if data and #data > 0 then
-          for _, l in ipairs(data) do
-            if l ~= "" then
-              table.insert(out, l)
-            end
+vim.api.nvim_command('command! CiQuote execute "normal ci" | :stopinsert"')
+
+-- Comando manual para atualizar a config via git pull e instalar Mason ausentes
+vim.api.nvim_create_user_command("ConfigUpdate", function()
+  local config_path = vim.fn.stdpath("config")
+  local out = {}
+  local cmd = { "git", "-C", config_path, "pull", "--ff-only" }
+  vim.fn.jobstart(cmd, {
+    stdout_buffered = true,
+    stderr_buffered = true,
+    on_stdout = function(_, data)
+      if data and #data > 0 then
+        for _, l in ipairs(data) do
+          if l ~= "" then
+            table.insert(out, l)
           end
-          vim.notify(table.concat(data, "\n"), vim.log.levels.INFO, { title = "LazyVim Git Pull" })
         end
-      end,
-      on_stderr = function(_, data)
-        if data and #data > 0 then
-          vim.notify(table.concat(data, "\n"), vim.log.levels.ERROR, { title = "LazyVim Git Pull" })
-        end
-      end,
-      on_exit = function(_, code)
-        local stdout = table.concat(out, "\n")
-        local updated = (code == 0)
-          and not stdout:match("[Aa]lready up%-to%-date")
-          and not stdout:match("[Aa]lready up to date")
-        if stdout:match("[Ff]ast%-forward") or stdout:match("[Uu]pdating%s+[%w]+%.+[%w]+") then
-          updated = true
-        end
-        if updated then
-          vim.schedule(function()
-            vim.cmd("MasonInstallFromFile") -- agora só instala o que falta
-          end)
-        end
-      end,
-    })
+        vim.notify(table.concat(data, "\n"), vim.log.levels.INFO, { title = "LazyVim Git Pull" })
+      end
+    end,
+    on_stderr = function(_, data)
+      if data and #data > 0 then
+        vim.notify(table.concat(data, "\n"), vim.log.levels.ERROR, { title = "LazyVim Git Pull" })
+      end
+    end,
+    on_exit = function(_, code)
+      local stdout = table.concat(out, "\n")
+      local updated = (code == 0)
+        and not stdout:match("[Aa]lready up%-to%-date")
+        and not stdout:match("[Aa]lready up to date")
+      if stdout:match("[Ff]ast%-forward") or stdout:match("[Uu]pdating%s+[%w]+%.+[%w]+") then
+        updated = true
+      end
+      if updated then
+        vim.schedule(function()
+          vim.cmd("MasonInstallFromFile")
+        end)
+      end
+    end,
+  })
+end, { desc = "Atualiza config via git pull e instala Mason ausentes" })
+
+-- Inicia JDTLS somente ao abrir arquivo Java
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "java",
+  callback = function()
+    pcall(function()
+      require("lazy").load({ plugins = { "nvim-jdtls" } })
+    end)
+    local ok, jdtls_cfg = pcall(require, "config.jdtls")
+    if not ok then
+      vim.notify("JDTLS config não carregou (plugin ausente?)", vim.log.levels.WARN)
+      return
+    end
+    local ok_setup, err = pcall(jdtls_cfg.setup_jdtls)
+    if not ok_setup and err then
+      vim.notify("Falha ao iniciar JDTLS: " .. tostring(err), vim.log.levels.ERROR)
+    end
   end,
 })
-
-vim.api.nvim_command('command! CiQuote execute "normal ci" | :stopinsert"')
 
 -- Função para garantir que o dicionário PT-BR exista
 local function ensure_pt_spell()

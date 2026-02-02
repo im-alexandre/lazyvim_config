@@ -110,12 +110,34 @@ local function java_keymaps()
   vim.keymap.set("n", "<leader>Ju", "<Cmd> JdtUpdateConfig<CR>", { desc = "[J]ava [U]pdate Config" })
 end
 
+local jdtls_started = false
+
 local function setup_jdtls()
+  if jdtls_started then
+    return
+  end
+  if vim.fn.executable("java") ~= 1 then
+    vim.notify("Java não encontrado no PATH; JDTLS não iniciado.", vim.log.levels.WARN)
+    return
+  end
+
   -- Get access to the jdtls plugin and all of its functionality
-  local jdtls = require("jdtls")
+  local ok_jdtls, jdtls = pcall(require, "jdtls")
+  if not ok_jdtls then
+    vim.notify("Plugin nvim-jdtls não disponível.", vim.log.levels.WARN)
+    return
+  end
 
   -- Get the paths to the jdtls jar, operating specific configuration directory, and lombok jar
   local launcher, os_config, lombok = get_jdtls()
+  if launcher == "" or vim.fn.filereadable(launcher) ~= 1 then
+    vim.notify("JDTLS não encontrado no Mason (launcher ausente).", vim.log.levels.WARN)
+    return
+  end
+  if vim.fn.isdirectory(os_config) ~= 1 then
+    vim.notify("Configuração do JDTLS não encontrada: " .. os_config, vim.log.levels.WARN)
+    return
+  end
 
   -- Get the path you specified to hold project information
   local workspace_dir = get_workspace()
@@ -125,6 +147,9 @@ local function setup_jdtls()
 
   -- Determine the root directory of the project by looking for these specific markers
   local root_dir = jdtls.setup.find_root({ ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" })
+  if not root_dir then
+    return
+  end
 
   -- Tell our JDTLS language features it is capable of
   local capabilities = {
@@ -138,10 +163,12 @@ local function setup_jdtls()
     },
   }
 
-  local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-  for k, v in pairs(lsp_capabilities) do
-    capabilities[k] = v
+  local ok_cmp, cmp = pcall(require, "cmp_nvim_lsp")
+  if ok_cmp then
+    local lsp_capabilities = cmp.default_capabilities()
+    for k, v in pairs(lsp_capabilities) do
+      capabilities[k] = v
+    end
   end
 
   -- Get the default extended client capablities of the JDTLS language server
@@ -314,6 +341,7 @@ local function setup_jdtls()
     on_attach = on_attach,
   }
 
+  jdtls_started = true
   -- Start the JDTLS server
   require("jdtls").start_or_attach(config)
 end
