@@ -63,10 +63,12 @@ return {
 
     local function write_list(pkgs)
       table.sort(pkgs)
-      local f, err = io.open(list_file, "w")
-      if not f then
-        vim.notify("Erro ao escrever " .. list_file .. ": " .. (err or ""), vim.log.levels.ERROR)
-        return false
+      if not vim.g.is_android then
+        local f, err = io.open(list_file, "w")
+        if not f then
+          vim.notify("Erro ao escrever " .. list_file .. ": " .. (err or ""), vim.log.levels.ERROR)
+          return false
+        end
       end
       for _, name in ipairs(pkgs) do
         f:write(name .. "\n")
