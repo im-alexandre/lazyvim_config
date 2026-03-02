@@ -1,0 +1,11 @@
+-- return {
+--   "saghen/blink.cmp",
+--   version = "1.9.1",
+--   build = "cargo build --release",
+--   opts = {
+--     fuzzy = { implementation = "prefer_rust" },
+--     completion = {
+--       list = { selection = { preselect = false } },
+--     },
+--   },
+-- }
