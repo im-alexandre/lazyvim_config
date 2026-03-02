@@ -1,5 +1,6 @@
 return {
   "saghen/blink.cmp",
+  build = "cargo build --release",
   opts = function(_, opts)
     opts.completion = opts.completion or {}
     opts.completion.list = opts.completion.list or {}
