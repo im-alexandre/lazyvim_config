@@ -185,7 +185,7 @@ return {
 
   -- add any tools you want to have installed below
   {
-    "williamboman/mason.nvim",
+    "mason/mason.nvim",
     opts = {
       ensure_installed = {
         "stylua",
