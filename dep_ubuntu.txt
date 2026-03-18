@@ -1,0 +1,11 @@
+git
+curl
+fd-find
+ripgrep
+python3
+python3-pip
+nodejs
+npm
+default-jdk-headless
+pandoc
+wkhtmltopdf

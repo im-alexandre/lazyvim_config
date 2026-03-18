@@ -1,135 +1,177 @@
 # Configuração do Neovim com LazyVim
 
-## Visão geral
-Configuração do Neovim baseada no LazyVim. Este repositório define o comportamento do editor, plugins, ferramentas de LSP/formatadores e comandos personalizados para o desenvolvimento diário no Windows, com integração opcional com WSL.
+Configuração pessoal do Neovim baseada no [LazyVim](https://github.com/LazyVim/LazyVim), com foco em desenvolvimento diário, integração com LSP, formatação, terminal embutido e alguns fluxos específicos para Windows, Termux/Android e Java.
 
-## Stack técnica
-- Linguagens: Lua (config), JSON (snippets, arquivos de lock), Markdown (docs)
-- Gerenciador de plugins: lazy.nvim
-- Base/distro: LazyVim
-- Gerenciador de LSP/ferramentas: mason.nvim
-- Plugins de UI/UX: snacks.nvim, telescope.nvim, toggleterm.nvim, diffview.nvim, gruvbox.nvim
-- Assistente de IA: avante.nvim (provedor OpenAI)
-- Snippets: friendly-snippets + snippets locais em `snippets/`
-- Formatação: stylua (Lua), além das ferramentas do Mason listadas em `mason-packages.txt`
+Ela segue a ideia central do README original do LazyVim: um setup pronto para uso, mas fácil de expandir com módulos pequenos em `lua/config/`, `lua/plugins/` e `lua/user_commands/`.
 
-## Requisitos
-Ferramentas e runtimes do sistema referenciados na configuração:
-- Git (bootstrap do lazy.nvim, atualização automática na inicialização)
-- PowerShell (pwsh.exe) no Windows
-- Java (para jdtls)
-- CLI `codex` (usado pelo toggleterm); pode ser sobrescrito via `CODEX_CMD` (padrão: `codex --model gpt-5.1-codex-mini`)
-- curl (baixa os arquivos de spell PT-BR na primeira execução)
-- fd (usado pelo buscador do dashboard do snacks.nvim)
-- pandoc (para `:PandocTelescope`)
-- wkhtmltopdf (opcional, usado para saída em PDF no Pandoc)
+## Destaques
 
-Python/Conda:
-- Um ambiente Conda ativo ou instalação base com `python.exe`
-- `jedi-language-server` disponível via `python -m jedi-language-server`
+- Baseada em `lazy.nvim` + LazyVim.
+- LSP e ferramentas externas via Mason.
+- Formatação configurada para Lua, Python, Shell, Java, JSON, Markdown e templates Django/Jinja.
+- Terminal flutuante para Codex com `:Codex`.
+- Integração com `jdtls` para Java.
+- Dashboard, Telescope, Diffview, Noice, ToggleTerm e Gruvbox já ajustados.
+- Suporte específico para Android/Termux, incluindo clipboard.
 
-## Início rápido
-1. Instale o Neovim e as ferramentas do sistema listadas acima.
-2. Garanta que `pwsh.exe`, `git` e `java` estejam no PATH.
-3. Abra o Neovim neste diretório de configuração.
-4. O lazy.nvim fará o bootstrap e instalará os plugins na primeira execução.
-5. Os pacotes do Mason são sincronizados a partir do `mason-packages.txt` via `:MasonInstallFromFile`.
+## Requisitos gerais
+
+Além do Neovim, esta configuração depende de ferramentas externas do sistema:
+
+- `git`
+- `curl`
+- `fd`
+- `ripgrep`
+- `python`
+- `node`
+- `java`
+- `pandoc`
+- `wkhtmltopdf` opcional para exportação em PDF
+
+Dependências adicionais por ambiente estão nos arquivos:
+
+- `dep_ubuntu.txt`
+- `dep_windows.txt`
+- `dep_android.txt`
+
+Observações:
+
+- No Windows, a configuração usa `pwsh` como shell padrão.
+- No Android, o clipboard depende de `termux-api`.
+- O comando `:Codex` depende de uma CLI disponível em `CODEX_CMD` ou do binário `codexr`.
+- O Avante exige `OPENAI_API_KEY`.
+
+## Instalação no Ubuntu
+
+Instale o Neovim e as dependências do sistema:
+
+```sh
+sudo apt update
+sudo apt install neovim $(tr '\n' ' ' < dep_ubuntu.txt)
+```
+
+Se quiser clonar esta configuração diretamente:
+
+```sh
+git clone <SEU-REPO> ~/.config/nvim
+nvim
+```
+
+Na primeira execução, o `lazy.nvim` fará o bootstrap dos plugins. Depois disso, rode:
+
+```vim
+:MasonInstallFromFile
+```
+
+## Instalação no Windows
+
+Se o Chocolatey ainda não estiver instalado, execute o comando oficial em um PowerShell com privilégios de administrador:
+
+```powershell
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+```
+
+Depois, instale o Neovim e as dependências:
+
+```powershell
+choco install -y neovim (Get-Content .\dep_windows.txt)
+```
+
+Em seguida:
+
+```powershell
+git clone <SEU-REPO> $env:LOCALAPPDATA\nvim
+nvim
+```
+
+Observações para Windows:
+
+- `pwsh` precisa estar no `PATH`.
+- Python é usado pelo `jedi-language-server`.
+- Java é obrigatório para o fluxo com `jdtls`.
+
+## Instalação no Android (Termux)
+
+No Termux:
+
+```sh
+pkg update
+pkg install neovim $(tr '\n' ' ' < dep_android.txt)
+```
+
+Se quiser clipboard funcionando, instale também o app Termux:API no Android.
+
+Depois:
+
+```sh
+git clone <SEU-REPO> ~/.config/nvim
+nvim
+```
 
 ## Estrutura do repositório
-- `init.lua`: ponto de entrada; carrega módulos de configuração e integração do codex/avante.
-- `lua/config/`: comportamento principal (opções, autocmds, keymaps, terminal, jdtls, env Python).
-- `lua/plugins/`: specs de plugins e sobrescritas (overrides).
-- `lua/user_commands/`: comandos personalizados.
-- `lua/codex/`: prompt e executor (runner) do AvanteDoc.
-- `snippets/`: snippets locais para Jinja/Django e PowerShell.
-- `mason-packages.txt`: lista canônica de ferramentas do Mason para instalar.
-- `lazy-lock.json`: versões de plugins fixadas.
-- `lazyvim.json`: extras do LazyVim habilitados.
 
-## Comandos personalizados
-- `:AvanteDoc` - Gera `avante.md` na raiz do projeto usando Codex e `lua/codex/avante_project.md`.
-- `:Codex` - Abre um terminal flutuante executando o comando do Codex.
-- `:MasonExport` - Exporta os pacotes instalados no Mason para `mason-packages.txt`.
-- `:MasonInstallFromFile` - Instala apenas as ferramentas faltantes a partir do `mason-packages.txt`.
-- `:PandocTelescope` - Converte arquivos com Pandoc via um seletor do Telescope.
-- `:CiQuote` - Executa um comando de alteração `ci"` e então sai do modo insert.
-
-## Keymaps
-Geral:
-- `gd` - Telescope: definições do LSP
-- `gr` - Telescope: referências do LSP
-- `gI` - Telescope: implementações do LSP
-- `gy` - Telescope: definições de tipo do LSP
-- `<leader>sg` - Live grep no diretório de trabalho atual
-- `<C-F4>` - Fecha o buffer atual
-- `<leader>ac` - AvanteChange
-- `<leader>cx` - Alterna o terminal do Codex
-- `//` - Limpa o highlight de busca
-
-Java (jdtls):
-- `<leader>Jo` - Organizar imports
-- `<leader>Jv` - Extrair variável (normal/visual)
-- `<leader>JC` - Extrair constante (normal/visual)
-- `<leader>Jt` - Rodar o teste mais próximo (normal/visual)
-- `<leader>JT` - Rodar a classe de testes
-- `<leader>Ju` - Atualizar configuração do projeto
-
-## Pacotes do Mason
-As ferramentas abaixo são declaradas no `mason-packages.txt` e sincronizadas automaticamente:
-
-```
-ansible-language-server
-autoflake
-autopep8
-bash-language-server
-django-template-lsp
-djlint
-docker-compose-language-service
-docker-language-server
-dockerfile-language-server
-eslint-lsp
-google-java-format
-hadolint
-java-debug-adapter
-java-test
-jdtls
-jedi-language-server
-jinja-lsp
-jq
-json-lsp
-lua-language-server
-marksman
-powershell-editor-services
-pyproject-fmt
-pyright
-ruff
-shfmt
-stylua
-tree-sitter-cli
-typescript-language-server
+```text
+.
+├── init.lua
+├── lazyvim.json
+├── lua/
+│   ├── config/
+│   ├── platform/
+│   ├── plugins/
+│   └── user_commands/
+├── snippets/
+├── dep_ubuntu.txt
+├── dep_windows.txt
+└── dep_android.txt
 ```
 
-## Notas de comportamento e Autocmds
-- Em `VimEnter`, um `git pull --ff-only` roda no diretório de configuração e dispara `:MasonInstallFromFile` caso atualizações tenham sido aplicadas.
-- Arquivos abertos a partir de `[stdin]` são tratados como `diff` com `foldmethod=diff`.
-- `*.j2`, `*.jinja`, `*.jinja2` são definidos como `htmldjango`.
-- Os arquivos de spell PT-BR são baixados com `curl` caso estejam ausentes.
+- `init.lua`: ponto de entrada.
+- `lua/config/`: opções, autocmds, keymaps, terminal, JDTLS e ajustes de ambiente.
+- `lua/platform/`: customizações por plataforma, como Android.
+- `lua/plugins/`: specs e overrides de plugins.
+- `lua/user_commands/`: comandos como `:Codex` e `:PandocTelescope`.
+- `snippets/`: snippets locais.
+
+## Comandos úteis
+
+- `:Codex` abre o terminal flutuante do Codex.
+- `:MasonInstallFromFile` instala ferramentas faltantes do Mason.
+- `:MasonExport` exporta os pacotes instalados para o arquivo canônico.
+- `:PandocTelescope` converte arquivos com Pandoc.
+- `:Lazy sync` sincroniza plugins.
+
+## Comportamentos importantes
+
+- Ao iniciar, a configuração pode executar `git pull --ff-only` no diretório do Neovim.
+- Se faltarem arquivos de spell em PT-BR, eles são baixados com `curl`.
+- Arquivos `*.j2`, `*.jinja` e `*.jinja2` são tratados como `htmldjango`.
+- Arquivos Java carregam o `jdtls` sob demanda.
 - `BufWritePre` força `fileformat=unix`.
 
-## Destaques de plugins
-- `avante.nvim` configurado para OpenAI com `OPENAI_API_KEY`.
-- `toggleterm.nvim` fornece um terminal dedicado ao Codex.
-- `snacks.nvim` dashboard com cabeçalho customizado e buscador `fd`.
-- `telescope.nvim` inclui arquivos ocultos em `find_files`.
-- `friendly-snippets` exclui snippets de PowerShell; snippets locais são carregados de `snippets/`.
-- `mini.icons` adiciona ícones para extensões Jinja e `htmldjango`.
-- `gruvbox.nvim` configurado com modo transparente e contraste hard.
+## Ferramentas gerenciadas pelo Mason
 
-## Pontos críticos e observações
-- `lua/config/remove_powershell.lua` modifica o repositório do plugin `friendly-snippets` e tenta fazer commit ou stash da remoção do `PowerShell.json`.
-- `lua/config/jdtls.lua` seleciona `config_win`/`config_mac`/`config_linux` conforme o sistema; ajuste se estiver rodando JDTLS em um contexto diferente do host (ex.: WSL).
-- O Avante requer `OPENAI_API_KEY` no ambiente.
+LSPs, linters e formatadores como `lua-language-server`, `pyright`, `ruff`, `stylua`, `shfmt`, `djlint`, `jq`, `jdtls` e `powershell-editor-services` são instalados via Mason, não pelo sistema operacional diretamente.
 
-## Formatação e estilo
-- A formatação de Lua é definida em `stylua.toml` (2 espaços, largura de coluna 120).
-- Nenhum teste automatizado é definido neste repositório.
+## Desenvolvimento e manutenção
+
+Para validar a configuração sem interface:
+
+```sh
+nvim --headless "+qa"
+```
+
+Para sincronizar plugins:
+
+```sh
+nvim --headless "+Lazy! sync" "+qa"
+```
+
+Para instalar ferramentas do Mason após um bootstrap novo:
+
+```sh
+nvim --headless "+MasonInstallFromFile" "+qa"
+```
+
+## Notas finais
+
+Esta configuração assume que você quer um Neovim opinativo, já pronto para edição de código, terminal, busca, Java, Python, templates Django/Jinja e uso diário em mais de um ambiente. Se algo falhar no primeiro boot, o ponto inicial de inspeção costuma ser: `:checkhealth`, `:Lazy`, `:Mason` e o `PATH` do sistema.

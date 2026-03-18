@@ -1,0 +1,9 @@
+git
+curl
+fd
+ripgrep
+python
+nodejs
+openjdk-17
+pandoc
+termux-api

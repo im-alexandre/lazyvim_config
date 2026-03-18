@@ -1,0 +1,10 @@
+git
+curl
+fd
+ripgrep
+python
+nodejs-lts
+temurin21jdk
+pandoc
+wkhtmltopdf
+powershell-core
