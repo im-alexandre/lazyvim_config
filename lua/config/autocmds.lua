@@ -9,13 +9,6 @@
 -- Auto update da config do LazyVim
 -- AUTOCMD: Git pull no config; se atualizou, roda :MasonInstallFromFile
 
-vim.api.nvim_create_autocmd("User", {
-	pattern = "AvanteReady",
-	callback = function()
-		vim.cmd("AvanteSwitchProvider claude")
-	end,
-})
-
 vim.api.nvim_create_autocmd("BufReadPost", {
 	pattern = { "[stdin]" },
 	callback = function()
