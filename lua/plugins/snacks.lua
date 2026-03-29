@@ -1,33 +1,33 @@
 return {
-  "snacks.nvim",
-  ---@type snacks.Config
-  opts = {
-    -- 1. CONFIGURAÇÃO DO PICKER (EXPANSÃO)
-    -- Ao declarar a estrutura assim, o Lazy faz o merge com os defaults.
-    picker = {
-      win = {
-        input = {
-          keys = {
-            -- Adiciona APENAS este mapping, mantendo os originais (<CR>, <Esc>, etc)
-            -- ["<c-s>"] = { "edit_vsplit", mode = { "i", "n" } },
-          },
-        },
-        -- Se quiser garantir também na lista de resultados (navegação normal)
-        list = {
-          keys = {
-            -- ["<c-s>"] = { "edit_vsplit", mode = { "i", "n" } },
-          },
-        },
-      },
-    },
+	"snacks.nvim",
+	---@type snacks.Config
+	opts = {
+		-- 1. CONFIGURAÇÃO DO PICKER (EXPANSÃO)
+		-- Ao declarar a estrutura assim, o Lazy faz o merge com os defaults.
+		picker = {
+			win = {
+				input = {
+					keys = {
+						-- Adiciona APENAS este mapping, mantendo os originais (<CR>, <Esc>, etc)
+						-- ["<c-s>"] = { "edit_vsplit", mode = { "i", "n" } },
+					},
+				},
+				-- Se quiser garantir também na lista de resultados (navegação normal)
+				list = {
+					keys = {
+						-- ["<c-s>"] = { "edit_vsplit", mode = { "i", "n" } },
+					},
+				},
+			},
+		},
 
-    -- 2. SEU DASHBOARD (MANTIDO INTACTO)
-    dashboard = {
-      preset = {
-        pick = function(cmd, opts)
-          return LazyVim.pick(cmd, opts)()
-        end,
-        header = [[
+		-- 2. SEU DASHBOARD (MANTIDO INTACTO)
+		dashboard = {
+			preset = {
+				pick = function(cmd, opts)
+					return LazyVim.pick(cmd, opts)()
+				end,
+				header = [[
                 ██╗  ██╗ █████╗ ███╗   ██╗██████╗  █████╗  ██████╗      █╗      █████╗ ██████╗ ███████╗
                 ╚██╗██╔╝██╔══██╗████╗  ██║██╔══██╗██╔══██╗██╔═══██╗     █║     ██╔══██╗██╔══██╗██╔════╝
                  ╚███╔╝ ███████║██╔██╗ ██║██║  ██║███████║██║   ██║████ █║     ███████║██████╔╝███████╗
@@ -36,18 +36,18 @@ return {
                 ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝ ╚═╝  ╚═╝ ╚═════╝      ══════╝╚═╝  ╚═╝╚═════╝ ╚══════╝
               ]],
 
-        finder = {
-          cmd = "fd",
-          args = {
-            "--type",
-            "f",
-            "--hidden",
-            "--exclude",
-            ".git",
-            "--ignore-file",
-            ".gitignore",
-          },
-        },
+				finder = {
+					cmd = "fd",
+					args = {
+						"--type",
+						"f",
+						"--hidden",
+						"--exclude",
+						".git",
+						"--ignore-file",
+						".gitignore",
+					},
+				},
         -- stylua: ignore
         ---@type snacks.dashboard.Item[]
         keys = {
@@ -59,13 +59,12 @@ return {
           { icon = " ", key = "s", desc = "Restaurar última sessão", section = "session" },
           { icon = " ", key = "x", desc = "Lazy Extras", action = ":LazyExtras" },
           { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
-          { icon = "󰚩 ", key = "a", desc = "Avante Ask", action = ":AvanteAsk" },
           {
             icon = " ",
             key = "p",
-            desc = "Escolher Projeto (D:/desenvolvimento_local)",
+            desc = "Escolher Projeto (D:/)",
             action = function()
-              local root = "D:/desenvolvimento_local"
+              local root = "D:/"
 
               -- Get directories in the root path
               local handle = vim.loop.fs_scandir(root)
@@ -93,7 +92,7 @@ return {
               table.sort(projects)
 
               vim.ui.select(projects, {
-                prompt = "Escolha um projeto em D:/desenvolvimento_local",
+                prompt = "Escolha um projeto em D:/",
               }, function(choice)
                 if not choice then
                   return
@@ -119,7 +118,7 @@ return {
           end
           },
         },
-      },
-    },
-  },
+			},
+		},
+	},
 }

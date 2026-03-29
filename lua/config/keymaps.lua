@@ -2,7 +2,7 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 opts = function()
-  local Keys = require("lazyvim.plugins.lsp.keymaps").get()
+	local Keys = require("lazyvim.plugins.lsp.keymaps").get()
   -- stylua: ignore
   vim.list_extend(Keys, {
     { "gd", function() require("telescope.builtin").lsp_definitions({ reuse_win = true }) end, desc = "Goto Definition", has = "definition" },
@@ -18,9 +18,7 @@ end
 local set = vim.keymap.set
 
 set({ "i", "n", "v" }, "<C-F4>", function()
-  pcall(vim.api.nvim_buf_delete, 0, { force = false })
+	pcall(vim.api.nvim_buf_delete, 0, { force = false })
 end, { desc = "fechar arquivo do buffer (janela) atual" })
 
-set("n", "<leader>ac", "<cmd>ClaudeCode<cr>", { desc = "Toggle Claude Code" })
-set("v", "<leader>as", "<cmd>ClaudeCodeSend<cr>", { desc = "Enviar seleção para o Claude" })
 set("n", "//", "<cmd>nohl<CR>", { desc = "tirar o highlight da busca" })
