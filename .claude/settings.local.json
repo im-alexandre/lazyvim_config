@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "Bash(nvim:*)",
+      "Read(//c/Users/imale/AppData/Local/nvim-data/lazy/codex.nvim/lua/codex/**)",
+      "Read(//c/Users/imale/AppData/Local/nvim-data/lazy/codex.nvim/**)"
+    ]
+  }
+}

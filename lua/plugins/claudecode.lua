@@ -4,13 +4,14 @@ return {
 	config = true,
 	keys = {
 		{ "<leader>a", nil, desc = "AI/Claude Code" },
-		{ "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
+		{ "<leader>C", nil, desc = "Claude Code" },
+		{ "<leader>Ct", "<cmd>ClaudeCode<cr>", desc = "Claude: toggle" },
 		{ "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
 		{ "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
 		{ "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
 		{ "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
 		{ "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
-		{ "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
+		{ "<leader>Cs", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Claude: send selection" },
 		{
 			"<leader>as",
 			"<cmd>ClaudeCodeTreeAdd<cr>",
