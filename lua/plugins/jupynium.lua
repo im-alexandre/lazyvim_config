@@ -14,6 +14,6 @@ return {
 			vim.fn.search("^# %%", "W")
 		end, { desc = "Execute cell and jump to next" })
 
-		vim.keymap.set("n", "<leader>ja", "ggVG<cmd>JupyniumExecuteSelectedCells<CR>", { desc = "Execute all cells" })
+		vim.keymap.set("n", "<leader>ja", "ggVG<cmd>JupyniumExecuteSelectedCells<CR><Esc>", { desc = "Execute all cells" })
 	end,
 }

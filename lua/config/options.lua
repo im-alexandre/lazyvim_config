@@ -15,4 +15,3 @@ vim.opt.spell = true
 vim.opt.spelllang = { "en", "pt" }
 vim.g.lazyvim_picker = "telescope"
 
-vim.opt.shadafile = "NONE"

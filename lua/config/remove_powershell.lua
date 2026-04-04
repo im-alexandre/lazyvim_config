@@ -18,15 +18,15 @@ local function remove_and_record()
 		return
 	end
 
-	-- se o arquivo existir, remove
-	if uv.fs_stat(ps_file) then
-		local ok_unlink, err = uv.fs_unlink(ps_file)
-		if not ok_unlink then
-			vim.notify("Falha ao remover PowerShell.json: " .. tostring(err), vim.log.levels.WARN)
-			return
-		end
-	else
-		-- já removido anteriormente; ainda assim tente registrar (caso update/checkout recriou índices)
+	-- se o arquivo existir, remove; senão, nada a fazer
+	if not uv.fs_stat(ps_file) then
+		return
+	end
+
+	local ok_unlink, err = uv.fs_unlink(ps_file)
+	if not ok_unlink then
+		vim.notify("Falha ao remover PowerShell.json: " .. tostring(err), vim.log.levels.WARN)
+		return
 	end
 
 	-- tenta COMMITAR a remoção (com user local só pra esse commit)
