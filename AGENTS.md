@@ -1,51 +1,23 @@
-# Repository Guidelines
+# AGENTS.md
 
-## Project Structure & Module Organization
-This repository is a Neovim configuration built around LazyVim. The entry point is `init.lua`, which bootstraps Lazy and auto-loads modules from sibling directories.
+## Notebook workflow
 
-- `lua/config/`: core editor behavior such as options, keymaps, autocmds, and LSP helpers.
-- `lua/plugins/`: one plugin spec per file; add new integrations here.
-- `lua/user_commands/`: custom `:` commands, auto-loaded without manual registration.
-- `lua/platform/`: platform-specific overrides, including Android behavior.
-- `snippets/`: project-local VS Code style snippet JSON files.
-- `.github/workflows/`: GitHub automation for Claude-related workflows.
+- Use `*.ju.py` as the only editable notebook source of truth.
+- Opening a `*.ju.py` should auto-start `nbclassic`, auto-attach Jupynium, and auto-start sync.
+- Do not re-enable `jupytext.nvim` for this workflow unless you explicitly want `ipynb <-> py` pairing again.
+- Regular `*.py` files and `*.md` files must stay outside Jupynium sync.
 
-There is no conventional test suite; validation is done by booting Neovim and exercising the changed feature directly.
+## nbclassic autosave
 
-## Build, Test, and Development Commands
-- `nvim`: start Neovim with this configuration.
-- `nvim --headless "+qa"`: verify the config boots without startup errors.
-- `nvim --headless "+Lazy! sync" "+qa"`: sync/update plugins.
-- `nvim --headless "+MasonInstallFromFile" "+qa"`: install Mason-managed tools declared by the config.
+The classic notebook frontend must have autosave disabled to avoid reload prompts while Neovim edits the source file.
 
-For feature work, validate the exact workflow you changed. Examples: run `:MasonInstallFromFile`, open `:Codex`, or test Java file startup for JDTLS.
+Required file:
 
-## Coding Style & Naming Conventions
-Use Lua conventions already present in the repo.
+- `C:\Users\imale\.jupyter\custom\custom.js`
 
-- Prefer 2-space indentation in `lua/config/`; preserve the surrounding style elsewhere.
-- Use `snake_case` for Lua module filenames.
-- Put each new plugin config in its own file under `lua/plugins/`.
-- Put each new user command in its own file under `lua/user_commands/`.
-- Keep defensive `pcall()` guards where the surrounding code uses them so missing plugins degrade cleanly.
+Required behavior:
 
-Do not hardcode machine-specific paths; prefer environment variables or Neovim options.
+- call `Jupyter.notebook.set_autosave_interval(0);` on notebook load;
+- keep this scoped to `nbclassic`, not JupyterLab.
 
-## Testing Guidelines
-Testing is manual and behavior-focused.
-
-- Always run `nvim --headless "+qa"` after config changes.
-- Reproduce the user-facing workflow you touched.
-- If a change is platform-specific, verify it on the relevant platform path under `lua/platform/`.
-
-Document any validation gaps in the PR when you cannot test interactively.
-
-## Commit & Pull Request Guidelines
-Commit subjects should be short, imperative, and descriptive. Portuguese subjects are common, for example: `Corrige early return em remove_potws`.
-
-Pull requests should include:
-
-- a brief description of the change and affected area
-- manual validation steps performed
-- screenshots or terminal snippets when UI behavior changes
-- linked issues or context when applicable
+If notebook reload prompts come back, inspect `custom.js` first before changing the Neovim plugin config.

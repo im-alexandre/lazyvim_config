@@ -1,0 +1,20 @@
+# Ambiente validado com Python 3.12.9
+# Workflow de notebooks
+ipykernel
+jupynium
+jupyterlab
+jupytext
+nbconvert
+nbformat
+notebook
+pandocfilters
+beautifulsoup4
+lxml
+pywin32
+
+# Pré-requisito externo do pipeline de conversão para .docx:
+# - Pandoc deve estar instalado no sistema e disponível no PATH
+# - Em Windows, `pywin32` é necessário para o `jupyter-nbconvert --execute`
+notebook
+nbclassic
+jupyter-console

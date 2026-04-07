@@ -148,6 +148,39 @@ nvim
 - Arquivos Java carregam o `jdtls` sob demanda.
 - `BufWritePre` força `fileformat=unix`.
 
+## Workflow de notebooks com Jupynium
+
+O fluxo oficial de notebooks desta configuração usa `*.ju.py` como fonte da verdade.
+
+- Abrir um arquivo `*.ju.py` inicia automaticamente o `nbclassic` e o servidor do Jupynium.
+- O attach e o `start sync` acontecem automaticamente para `*.ju.py`.
+- Arquivos `*.py` comuns e `*.md` não participam do fluxo de sync.
+- `jupytext.nvim` fica desabilitado para evitar a criação de `notebook.py` a partir de `notebook.ipynb`.
+
+Para evitar o popup de reload no notebook clássico, o autosave do `nbclassic` deve estar desabilitado em `C:\Users\imale\.jupyter\custom\custom.js`.
+
+Exemplo de conteúdo:
+
+```javascript
+require(["base/js/namespace", "base/js/events"], function(Jupyter, events) {
+  function disableAutosave() {
+    if (Jupyter.notebook) {
+      Jupyter.notebook.set_autosave_interval(0);
+    }
+  }
+
+  events.on("notebook_loaded.Notebook", disableAutosave);
+  disableAutosave();
+});
+```
+
+Validação rápida:
+
+- abra um `*.ju.py`;
+- confirme que o Firefox abre no `nbclassic`;
+- edite e salve o arquivo;
+- confirme que o notebook sincroniza sem criar `*.py` pareado nem mostrar popup de reload.
+
 ## Ferramentas gerenciadas pelo Mason
 
 LSPs, linters e formatadores como `lua-language-server`, `pyright`, `ruff`, `stylua`, `shfmt`, `djlint`, `jq`, `jdtls` e `powershell-editor-services` são instalados via Mason, não pelo sistema operacional diretamente.
