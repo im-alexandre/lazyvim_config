@@ -17,17 +17,23 @@ local function resolve_python_host()
   return "D:/tools/anaconda3/python.exe" -- fallback pro seu base
 end
 
-local python_lsp_configured = false
+local python_configured = false
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "python",
   callback = function()
-    if python_lsp_configured then
+    if python_configured then
       return
     end
-    python_lsp_configured = true
+    python_configured = true
     PYTHON_HOST = resolve_python_host()
-    vim.lsp.config("jedi-language-server", {
-      cmd = { PYTHON_HOST, "-m", "jedi-language-server" },
+
+    -- Configura pyright para usar o Python do Conda
+    vim.lsp.config("pyright", {
+      settings = {
+        python = {
+          pythonPath = PYTHON_HOST,
+        },
+      },
     })
   end,
 })
