@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(xargs grep:*)",
-      "Bash(nvim:*)"
+      "Bash(nvim:*)",
+      "Bash(powershell.exe:*)",
+      "Read(//c/Users/imale/AppData/Local/nvim-data/lazy/avante.nvim/build/**)",
+      "Read(//c/Users/imale/AppData/Local/nvim-data/lazy/avante.nvim/lua/avante/**)",
+      "Read(//c/Users/imale/AppData/Local/nvim-data/lazy/avante.nvim/**)"
     ]
   }
 }

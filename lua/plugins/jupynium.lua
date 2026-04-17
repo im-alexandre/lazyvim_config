@@ -18,7 +18,7 @@ return {
 				python_host = { jupynium_python },
 				jupyter_command = { jupynium_pythonw, "-m", "jupyter" },
 				default_notebook_URL = "http://localhost:8888/nbclassic",
-				jupynium_file_pattern = { "*.ju.py" },
+				jupynium_file_pattern = { "*.py" },
 				use_default_keybindings = false,
 				textobjects = {
 					use_default_keybindings = false,
@@ -26,17 +26,17 @@ return {
 
 				auto_start_server = {
 					enable = false,
-					file_pattern = { "*.ju.py" },
+					file_pattern = { "*.py" },
 				},
 
 				auto_attach_to_server = {
 					enable = false,
-					file_pattern = { "*.ju.py" },
+					file_pattern = { "*.py" },
 				},
 
 				auto_start_sync = {
 					enable = false,
-					file_pattern = { "*.ju.py" },
+					file_pattern = { "*.py" },
 				},
 
 				auto_download_ipynb = false,

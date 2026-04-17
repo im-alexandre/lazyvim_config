@@ -9,9 +9,18 @@ vim.opt.fileformats = { "unix" }
 vim.opt.shadafile = "NONE"
 -- views can only be fully collapsed with the global statusline
 vim.opt.laststatus = 3
+vim.opt.autoread = true
 -- Ativa o spellcheck globalmente (opcional, se quiser sempre ligado)
 vim.opt.spell = true
 
--- Define as linguagens: Inglês E Português
 vim.opt.spelllang = { "en", "pt" }
 vim.g.lazyvim_picker = "telescope"
+
+-- Recarrega periodicamente arquivos alterados externamente
+vim.opt.updatetime = 1250
+vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI", "FocusGained" }, {
+	callback = function()
+		pcall(vim.cmd, "checktime")
+	end,
+})
+
