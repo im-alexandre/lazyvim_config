@@ -94,6 +94,13 @@ return {
 				start_services()
 			end, { desc = "Start nbclassic + Jupynium and attach" })
 
+			vim.keymap.set(
+				"n",
+				"<leader>jS",
+				"<cmd>JupyniumStartSync " .. vim.fn.expand("%:t:r") .. "<CR>",
+				{ desc = "Start Jupynium sync for current notebook name" }
+			)
+
 			vim.keymap.set("n", "<leader>je", function()
 				vim.cmd("JupyniumExecuteSelectedCells")
 				require("jupynium.textobj").goto_next_cell_separator()
