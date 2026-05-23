@@ -22,3 +22,6 @@ set({ "i", "n", "v" }, "<C-F4>", function()
 end, { desc = "fechar arquivo do buffer (janela) atual" })
 
 set("n", "//", "<cmd>nohl<CR>", { desc = "tirar o highlight da busca" })
+
+vim.keymap.set("x", "p", [["_dP]], { noremap = true, silent = true })
+vim.keymap.set("x", "P", [["_dP]], { noremap = true, silent = true })
