@@ -29,6 +29,9 @@ vim.api.nvim_command('command! CiQuote execute "normal ci" | :stopinsert"')
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "java",
 	callback = function()
+		if vim.fn.executable("java") ~= 1 then
+			return
+		end
 		pcall(function()
 			require("lazy").load({ plugins = { "nvim-jdtls" } })
 		end)

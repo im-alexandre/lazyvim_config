@@ -66,7 +66,6 @@ end
 
 return {
 	"rhart92/codex.nvim",
-	lazy = false,
 	init = function()
 		vim.o.autoread = true
 	end,

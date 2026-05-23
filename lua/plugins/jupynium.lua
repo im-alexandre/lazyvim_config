@@ -2,9 +2,46 @@ return {
 	{
 		"kiyoon/jupynium.nvim",
 		build = "conda run --no-capture-output -n base pip install .",
+		cmd = {
+			"JupyniumExecuteSelectedCells",
+			"JupyniumKernelSelect",
+			"JupyniumStartSync",
+		},
 		dependencies = {
 			"rcarriga/nvim-notify",
 			"stevearc/dressing.nvim",
+		},
+		keys = {
+			{
+				"<leader>js",
+				function()
+					require("lazy").load({ plugins = { "jupynium.nvim" } })
+					vim.schedule(function()
+						vim.api.nvim_feedkeys(vim.keycode("<leader>js"), "m", false)
+					end)
+				end,
+				desc = "Start nbclassic + Jupynium and attach",
+			},
+			{ "<leader>jS", "<cmd>JupyniumStartSync %:t:r<CR>", desc = "Start Jupynium sync for current notebook name" },
+			{ "<leader>je", "<cmd>JupyniumExecuteSelectedCells<CR>", desc = "Execute current cell" },
+			{ "<leader>ja", "ggVG<cmd>JupyniumExecuteSelectedCells<CR><Esc>", desc = "Execute all cells" },
+			{
+				"<leader>jn",
+				function()
+					require("lazy").load({ plugins = { "jupynium.nvim" } })
+					require("jupynium.textobj").goto_next_cell_separator()
+				end,
+				desc = "Jump to next cell",
+			},
+			{
+				"<leader>jN",
+				function()
+					require("lazy").load({ plugins = { "jupynium.nvim" } })
+					require("jupynium.textobj").goto_previous_cell_separator()
+				end,
+				desc = "Jump to previous cell",
+			},
+			{ "<leader>jk", "<cmd>JupyniumKernelSelect<CR>", desc = "Select Jupyter kernel" },
 		},
 		config = function()
 			require("notify").setup({

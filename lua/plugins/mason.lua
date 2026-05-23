@@ -50,6 +50,8 @@ return {
         "djlint",
         "hadolint",
         "jq",
+        "markdownlint-cli2",
+        "markdown-toc",
       },
       run_on_start = true,
     },

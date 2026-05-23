@@ -1,5 +1,16 @@
 return {
 	"yetone/avante.nvim",
+	cmd = {
+		"AvanteAsk",
+		"AvanteBuild",
+		"AvanteChat",
+		"AvanteClear",
+		"AvanteEdit",
+		"AvanteFocus",
+		"AvanteRefresh",
+		"AvanteSwitchProvider",
+		"AvanteToggle",
+	},
 	opts = {
 		provider = "codex",
 		debug = false,
