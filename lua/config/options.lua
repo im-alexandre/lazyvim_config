@@ -3,9 +3,13 @@
 -- Add any additional options here
 vim.opt.linespace = 8
 
+vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
+vim.opt.fileencodings = { "utf-8", "ucs-bom", "latin1" }
+
 vim.opt.fileformat = "unix"
-vim.opt.fileformats = { "unix" }
+vim.opt.fileformats = { "unix", "dos" }
+
 vim.opt.shadafile = "NONE"
 -- views can only be fully collapsed with the global statusline
 vim.opt.laststatus = 3
@@ -23,4 +27,3 @@ vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI", "FocusGained" }, {
 		pcall(vim.cmd, "checktime")
 	end,
 })
-
