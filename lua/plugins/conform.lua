@@ -34,6 +34,9 @@ return {
 
 			-- Ferramentas úteis por filetype
 			jq = { "jq" },
+
+			-- Configurações
+			toml = { "tombi" },
 		},
 	},
 }
