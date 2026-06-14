@@ -1,21 +1,9 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
-opts = function()
-	local Keys = require("lazyvim.plugins.lsp.keymaps").get()
-  -- stylua: ignore
-  vim.list_extend(Keys, {
-    { "gd", function() require("telescope.builtin").lsp_definitions({ reuse_win = true }) end, desc = "Goto Definition", has = "definition" },
-    { "gr", "<cmd>Telescope lsp_references<cr>", desc = "References", nowait = true },
-    { "gI", function() require("telescope.builtin").lsp_implementations({ reuse_win = true }) end, desc = "Goto Implementation" },
-    { "gy", function() require("telescope.builtin").lsp_type_definitions({ reuse_win = true }) end, desc = "Goto T[y]pe Definition" },
-    { "gy", function() require("telescope.builtin").lsp_type_definitions({ reuse_win = true }) end, desc = "Goto T[y]pe Definition" },
-    {"<leader>sg", function() require("telescope.builtin").live_grep({ cwd = vim.fn.getcwd(), prompt_title = "Live Grep (cwd)",}) end, desc = "Live grep (buscar string no projeto"}
-  }
-  )
-end
-
 local set = vim.keymap.set
+
+set("n", "gd", vim.lsp.buf.definition, { desc = "Goto Definition" })
+set("n", "gr", vim.lsp.buf.references, { desc = "References" })
+set("n", "gI", vim.lsp.buf.implementation, { desc = "Goto Implementation" })
+set("n", "gy", vim.lsp.buf.type_definition, { desc = "Goto Type Definition" })
 
 set({ "i", "n", "v" }, "<C-F4>", function()
 	pcall(vim.api.nvim_buf_delete, 0, { force = false })

@@ -15,7 +15,6 @@ return {
 				"path",
 				"snippets",
 				"buffer",
-				"jupynium",
 			},
 			providers = {
 				path = {
@@ -27,11 +26,6 @@ return {
 							return vim.fn.expand(("#%d:p:h"):format(context.bufnr))
 						end,
 					},
-				},
-				jupynium = {
-					name = "Jupynium",
-					module = "jupynium.blink_cmp",
-					score_offset = 100,
 				},
 			},
 		},

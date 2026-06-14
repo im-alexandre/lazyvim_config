@@ -18,7 +18,7 @@ vim.opt.autoread = true
 vim.opt.spell = true
 
 vim.opt.spelllang = { "en", "pt" }
-vim.g.lazyvim_picker = "telescope"
+vim.g.lazyvim_picker = "snacks"
 
 -- Recarrega periodicamente arquivos alterados externamente
 vim.opt.updatetime = 1250

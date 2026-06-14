@@ -25,28 +25,6 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 })
 vim.api.nvim_command('command! CiQuote execute "normal ci" | :stopinsert"')
 
--- Inicia JDTLS somente ao abrir arquivo Java
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "java",
-	callback = function()
-		if vim.fn.executable("java") ~= 1 then
-			return
-		end
-		pcall(function()
-			require("lazy").load({ plugins = { "nvim-jdtls" } })
-		end)
-		local ok, jdtls_cfg = pcall(require, "config.jdtls")
-		if not ok then
-			vim.notify("JDTLS config não carregou (plugin ausente?)", vim.log.levels.WARN)
-			return
-		end
-		local ok_setup, err = pcall(jdtls_cfg.setup_jdtls)
-		if not ok_setup and err then
-			vim.notify("Falha ao iniciar JDTLS: " .. tostring(err), vim.log.levels.ERROR)
-		end
-	end,
-})
-
 -- Função para garantir que o dicionário PT-BR exista
 local function ensure_pt_spell()
 	-- 1. Define os caminhos e URLs
@@ -113,16 +91,6 @@ vim.api.nvim_create_autocmd("VimLeavePre", {
 			for _, c in ipairs(vim.lsp.get_clients()) do
 				pcall(vim.lsp.stop_client, c.id, true) -- force
 			end
-		end)
-	end,
-})
-vim.api.nvim_create_autocmd("VimLeavePre", {
-	callback = function()
-		pcall(function()
-			require("dapui").close()
-		end)
-		pcall(function()
-			require("dap").terminate()
 		end)
 	end,
 })

@@ -29,11 +29,6 @@ local function apply_visual_cwd()
 	pcall(vim.cmd, "lcd " .. vim.fn.fnameescape(visual_cwd))
 end
 
-local function visual_git_root()
-	local git = vim.fs.find(".git", { path = visual_cwd, upward = true })[1]
-	return git and vim.fn.fnamemodify(git, ":h") or visual_cwd
-end
-
 apply_visual_cwd()
 
 vim.g.root_spec = vim.g.root_spec or { "lsp", { ".git", "lua" }, "cwd" }
@@ -47,22 +42,9 @@ vim.api.nvim_create_autocmd("VimEnter", {
 })
 
 vim.keymap.set("n", "<leader>e", function()
-	local ok, snacks = pcall(require, "snacks")
-	if ok then
-		snacks.explorer({ cwd = visual_cwd })
-	end
-end, { desc = "Explorer Snacks (PSReadLine cwd)" })
+	vim.cmd.edit(vim.fn.fnameescape(visual_cwd))
+end, { desc = "Open PSReadLine cwd" })
 
 vim.keymap.set("n", "<leader>E", function()
-	local ok, snacks = pcall(require, "snacks")
-	if ok then
-		snacks.explorer({ cwd = visual_cwd })
-	end
-end, { desc = "Explorer Snacks (PSReadLine cwd)" })
-
-vim.keymap.set("n", "<leader>gg", function()
-	local ok, snacks = pcall(require, "snacks")
-	if ok then
-		snacks.lazygit({ cwd = visual_git_root() })
-	end
-end, { desc = "Lazygit (PSReadLine cwd)" })
+	vim.cmd.edit(vim.fn.fnameescape(visual_cwd))
+end, { desc = "Open PSReadLine cwd" })
