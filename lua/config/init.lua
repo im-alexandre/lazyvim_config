@@ -15,3 +15,11 @@ for file in scandir(debug.getinfo(1).source:match("@?(.*/)")) do
 end
 
 return M
+vim.opt.list = true
+vim.opt.listchars = {
+  tab = "»·",
+  space = "·",
+  trail = "·",
+  extends = ">",
+  precedes = "<",
+}

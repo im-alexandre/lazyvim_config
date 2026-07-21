@@ -4,6 +4,7 @@ return {
     "mason-org/mason-lspconfig.nvim",
     opts = {
       ensure_installed = {
+        "basedpyright",
         "lua_ls",
         "powershell_es",
       },
@@ -15,6 +16,7 @@ return {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     opts = {
       ensure_installed = {
+        "ruff",
         "stylua",
       },
       run_on_start = true,
