@@ -1,14 +1,17 @@
 return {
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = function(_, opts)
-      opts.ensure_installed = {
-        "lua",
-        "luadoc",
-        "powershell",
-        "vim",
-        "vimdoc",
-      }
-    end,
-  },
+	{
+		"nvim-treesitter/nvim-treesitter",
+		opts = function(_, opts)
+			opts.ensure_installed = {
+				"markdown",
+				"markdown_inline",
+				"toml",
+				"lua",
+				"python",
+				"json",
+				"yaml",
+				"bash",
+			}
+		end,
+	},
 }

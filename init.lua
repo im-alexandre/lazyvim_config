@@ -21,3 +21,7 @@ vim.opt.listchars = {
 	extends = ">",
 	precedes = "<",
 }
+
+vim.opt.wrap = true
+vim.opt.linebreak = true
+vim.opt.breakindent = true

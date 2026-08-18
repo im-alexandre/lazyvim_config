@@ -102,3 +102,12 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 		vim.bo.fileformat = "unix"
 	end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "DiffviewFiles", "DiffviewFileHistory" },
+	callback = function()
+		vim.wo.wrap = true
+		vim.wo.linebreak = true
+		vim.wo.breakindent = true
+	end,
+})
