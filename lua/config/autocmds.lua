@@ -111,3 +111,11 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.wo.breakindent = true
 	end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "markdown", "markdown.mdx" },
+	callback = function(event)
+		vim.b[event.buf].autoformat = false
+	end,
+	desc = "Desativa o autoformat ao salvar Markdown",
+})

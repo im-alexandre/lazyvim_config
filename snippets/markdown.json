@@ -1,0 +1,7 @@
+{
+  "Comentário para o Agente corrigir": {
+    "prefix": "nota",
+    "body": ["<!--", "AGENTE [R${1:001}]", "${3:comentário}", "-->"],
+    "description": "insere um comentário para o agente"
+  }
+}

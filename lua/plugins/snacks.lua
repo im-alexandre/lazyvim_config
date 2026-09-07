@@ -5,6 +5,18 @@ return {
 		-- 1. CONFIGURAÇÃO DO PICKER (EXPANSÃO)
 		-- Ao declarar a estrutura assim, o Lazy faz o merge com os defaults.
 		picker = {
+			sources = {
+				explorer = {
+					win = {
+						list = {
+							wo = {
+								number = true,
+								relativenumber = true,
+							},
+						},
+					},
+				},
+			},
 			win = {
 				input = {
 					keys = {

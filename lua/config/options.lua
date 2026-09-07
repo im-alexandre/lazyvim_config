@@ -14,6 +14,8 @@ vim.opt.shadafile = "NONE"
 -- views can only be fully collapsed with the global statusline
 vim.opt.laststatus = 3
 vim.opt.autoread = true
+vim.opt.number = true
+vim.opt.relativenumber = true
 -- Ativa o spellcheck globalmente (opcional, se quiser sempre ligado)
 vim.opt.spell = true
 
