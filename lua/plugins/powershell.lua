@@ -1,5 +1,5 @@
 local bundle_path = vim.fs.normalize(vim.fn.stdpath("data") .. "/mason/packages/powershell-editor-services")
-local shell = vim.fn.executable("pwsh.exe") == 1 and "pwsh.exe" or "pwsh"
+local shell = vim.fn.has("win32") == 1 and require("config.terminal") or "pwsh"
 local script_path = vim.fs.normalize(bundle_path .. "/PowerShellEditorServices/Start-EditorServices.ps1")
 local cache_path = vim.fs.normalize(vim.fn.stdpath("cache"))
 

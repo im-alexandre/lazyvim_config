@@ -12,4 +12,5 @@ if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 then
 	vim.opt.shellcmdflag = "-NoLogo -ExecutionPolicy Bypass -Command"
 	vim.opt.shellquote = ""
 	vim.opt.shellxquote = ""
+	return pwsh
 end
