@@ -16,6 +16,10 @@ vim.opt.laststatus = 3
 vim.opt.autoread = true
 vim.opt.number = true
 vim.opt.relativenumber = true
+-- Margem compacta com numeros e uma coluna para indicadores.
+vim.opt.numberwidth = 2
+vim.opt.statuscolumn = ""
+vim.opt.signcolumn = "auto"
 -- Ativa o spellcheck globalmente (opcional, se quiser sempre ligado)
 vim.opt.spell = true
 

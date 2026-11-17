@@ -7,11 +7,13 @@ return {
 		picker = {
 			sources = {
 				explorer = {
+					layout = { layout = { width = 32, min_width = 32 } },
 					win = {
 						list = {
 							wo = {
 								number = true,
 								relativenumber = true,
+								numberwidth = 2,
 							},
 						},
 					},
