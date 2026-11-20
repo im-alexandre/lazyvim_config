@@ -1,0 +1,4 @@
+{
+  "Playbook": {"prefix":"ansible-play","body":["---","- name: ${1:Executar configuração}","  hosts: ${2:all}","  tasks:","    - name: ${3:Exibir mensagem}","      ansible.builtin.debug:","        msg: \"${4:Olá}\"","    $0"]},
+  "Tarefa": {"prefix":"ansible-task","body":["- name: ${1:Nome da tarefa}","  ansible.builtin.${2:debug}:","    $0"]}
+}

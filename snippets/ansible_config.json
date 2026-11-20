@@ -1,0 +1,9 @@
+{
+  "Configuração básica": {"prefix":"ansible-config","body":["[defaults]","inventory = ${1:./inventory.ini}","roles_path = ${2:./roles}","$0"]},
+  "Inventário": {"prefix":"inventory","body":"inventory = ${1:./inventory.ini}"},
+  "Caminho de roles": {"prefix":"roles_path","body":"roles_path = ${1:./roles}"},
+  "Usuário remoto": {"prefix":"remote_user","body":"remote_user = ${1:ansible}"},
+  "Chave SSH": {"prefix":"private_key_file","body":"private_key_file = ${1:~/.ssh/id_ed25519}"},
+  "Conexões paralelas": {"prefix":"forks","body":"forks = ${1:5}"},
+  "Plugins de inventário": {"prefix":"enable_plugins","body":"enable_plugins = ${1:host_list, script, auto, yaml, ini, toml}"}
+}

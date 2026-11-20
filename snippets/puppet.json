@@ -1,0 +1,5 @@
+{
+  "Classe Puppet": {"prefix":"puppet-class","body":["class ${1:profile::example} {","  $0","}"]},
+  "Recurso Puppet": {"prefix":"puppet-resource","body":["${1:package} { '${2:example}':","  ensure => ${3:present},","  $0","}"]},
+  "Nó Puppet": {"prefix":"puppet-node","body":["node '${1:agent.example.com}' {","  include ${2:profile::example}","  $0","}"]}
+}

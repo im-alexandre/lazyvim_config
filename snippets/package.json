@@ -1,0 +1,16 @@
+{
+  "name": "neovim-local-snippets",
+  "contributes": {
+    "snippets": [
+      {"language":"htmldjango","path":"./htmldjango.json"},
+      {"language":"markdown","path":"./markdown.json"},
+      {"language":"ps1","path":"./ps1.json"},
+      {"language":["dosini.ansible_config","ansible_config"],"path":"./ansible_config.json"},
+      {"language":["dosini.ansible_inventory","ansible_inventory"],"path":"./ansible_inventory.json"},
+      {"language":["yaml.ansible","ansible"],"path":"./ansible_playbook.json"},
+      {"language":"terraform","path":"./terraform_local.json"},
+      {"language":"terraform-vars","path":"./terraform_vars.json"},
+      {"language":"puppet","path":"./puppet.json"}
+    ]
+  }
+}

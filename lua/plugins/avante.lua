@@ -17,7 +17,7 @@ return {
 					args = vim.fn.has("win32") == 1 and { "/d", "/c", "codex-acp.cmd" } or {},
 					env = vim.tbl_extend("force", vim.fn.environ(), {
 						CODEX_PATH = vim.fn.exepath("codex"),
-						CODEX_CONFIG = vim.json.encode({ model = "gpt-6-luna" }),
+						CODEX_CONFIG = vim.json.encode({ model = "gpt-6.2-sol" }),
 					}),
 					auth_method = "chat-gpt",
 				},

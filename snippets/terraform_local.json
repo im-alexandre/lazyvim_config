@@ -1,0 +1,3 @@
+{
+  "Recurso Terraform": {"prefix":"tf-resource","body":["resource \"${1:terraform_data}\" \"${2:example}\" {","  $0","}"]}
+}

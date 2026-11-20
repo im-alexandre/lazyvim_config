@@ -1,0 +1,10 @@
+{
+  "Grupo de hosts": {"prefix":"ansible-group","body":["[${1:web}]","${2:web01} ansible_host=${3:192.0.2.10}","$0"]},
+  "Variáveis de grupo": {"prefix":"ansible-group-vars","body":["[${1:web}:vars]","ansible_user=${2:ansible}","$0"]},
+  "Grupos filhos": {"prefix":"ansible-children","body":["[${1:production}:children]","${2:web}","$0"]},
+  "Host remoto": {"prefix":"ansible_host","body":"ansible_host=${1:192.0.2.10}"},
+  "Usuário SSH": {"prefix":"ansible_user","body":"ansible_user=${1:ansible}"},
+  "Porta SSH": {"prefix":"ansible_port","body":"ansible_port=${1:22}"},
+  "Conexão": {"prefix":"ansible_connection","body":"ansible_connection=${1|ssh,local,winrm,psrp|}"},
+  "Interpretador": {"prefix":"ansible_python_interpreter","body":"ansible_python_interpreter=${1:/usr/bin/python3}"}
+}
